@@ -45,15 +45,15 @@ export function HeroSection() {
         <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-balance mb-6 animate-fade-in-heading">
           <span className="text-foreground">Building Intelligent</span>
           <br />
-          <span className="inline-flex items-center justify-center flex-wrap gap-2 mt-4 sm:mt-6 md:mt-8">
-            <span className="text-foreground">Platforms for the</span>
+          <span className="inline-flex items-center justify-center gap-1.5 sm:gap-2 mt-4 sm:mt-6 md:mt-8 whitespace-nowrap">
+            <span className="text-foreground shrink-0">Platforms for the</span>
             <RotatingText
               texts={["Future.....", "Innovation", "Enterprise", "Automation", "Tomorrow"]}
-              mainClassName="px-2 sm:px-2 md:px-3 bg-white text-black overflow-hidden py-1 sm:py-1 md:py-2 justify-center rounded-lg shadow-lg"
+              mainClassName="px-1.5 sm:px-2 md:px-3 bg-white text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg shadow-lg flex-shrink-0"
               staggerFrom={"last"}
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-120%" }}
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "-120%", opacity: 0 }}
               staggerDuration={0.025}
               splitLevelClassName="overflow-hidden pb-1 sm:pb-1 md:pb-1"
               transition={{ type: "spring", damping: 30, stiffness: 400 }}

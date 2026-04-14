@@ -5,11 +5,38 @@ import { motion, AnimatePresence } from "motion/react"
 
 import "./RotatingText.css"
 
-function cn(...classes) {
+function cn(...classes: (string | boolean | undefined | null)[]) {
   return classes.filter(Boolean).join(" ")
 }
 
-const RotatingText = forwardRef((props, ref) => {
+export interface RotatingTextRef {
+  next: () => void
+  previous: () => void
+  jumpTo: (index: number) => void
+  reset: () => void
+}
+
+interface RotatingTextProps extends Omit<React.ComponentPropsWithoutRef<typeof motion.span>, 'children'> {
+  texts: string[]
+  transition?: any
+  initial?: any
+  animate?: any
+  exit?: any
+  animatePresenceMode?: "wait" | "popLayout" | "sync"
+  animatePresenceInitial?: boolean
+  rotationInterval?: number
+  staggerDuration?: number
+  staggerFrom?: "first" | "last" | "center" | "random" | number
+  loop?: boolean
+  auto?: boolean
+  splitBy?: "characters" | "words" | "lines" | string
+  onNext?: (index: number) => void
+  mainClassName?: string
+  splitLevelClassName?: string
+  elementLevelClassName?: string
+}
+
+const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref) => {
   const {
     texts,
     transition = { type: "spring", damping: 25, stiffness: 300 },
@@ -33,7 +60,7 @@ const RotatingText = forwardRef((props, ref) => {
 
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
 
-  const splitIntoCharacters = (text) => {
+  const splitIntoCharacters = (text: string) => {
     if (typeof Intl !== "undefined" && Intl.Segmenter) {
       const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" })
       return Array.from(segmenter.segment(text), (segment) => segment.segment)
@@ -70,7 +97,7 @@ const RotatingText = forwardRef((props, ref) => {
   }, [texts, currentTextIndex, splitBy])
 
   const getStaggerDelay = useCallback(
-    (index, totalChars) => {
+    (index: number, totalChars: number) => {
       const total = totalChars
       if (staggerFrom === "first") return index * staggerDuration
       if (staggerFrom === "last") return (total - 1 - index) * staggerDuration
@@ -82,13 +109,16 @@ const RotatingText = forwardRef((props, ref) => {
         const randomIndex = Math.floor(Math.random() * total)
         return Math.abs(randomIndex - index) * staggerDuration
       }
-      return Math.abs(staggerFrom - index) * staggerDuration
+      if (typeof staggerFrom === "number") {
+        return Math.abs(staggerFrom - index) * staggerDuration
+      }
+      return 0
     },
     [staggerFrom, staggerDuration],
   )
 
   const handleIndexChange = useCallback(
-    (newIndex) => {
+    (newIndex: number) => {
       setCurrentTextIndex(newIndex)
       if (onNext) onNext(newIndex)
     },
@@ -110,7 +140,7 @@ const RotatingText = forwardRef((props, ref) => {
   }, [currentTextIndex, texts.length, loop, handleIndexChange])
 
   const jumpTo = useCallback(
-    (index) => {
+    (index: number) => {
       const validIndex = Math.max(0, Math.min(index, texts.length - 1))
       if (validIndex !== currentTextIndex) {
         handleIndexChange(validIndex)
@@ -152,11 +182,12 @@ const RotatingText = forwardRef((props, ref) => {
           layout
           aria-hidden="true"
         >
-          {elements.map((wordObj, wordIndex, array) => {
+          {elements.map((wordObj: { characters: string[], needsSpace: boolean }, wordIndex: number, array: { characters: string[], needsSpace: boolean }[]) => {
             const previousCharsCount = array.slice(0, wordIndex).reduce((sum, word) => sum + word.characters.length, 0)
+            const totalChars = array.reduce((sum, word) => sum + word.characters.length, 0)
             return (
               <span key={wordIndex} className={cn("text-rotate-word", splitLevelClassName)}>
-                {wordObj.characters.map((char, charIndex) => (
+                {wordObj.characters.map((char: string, charIndex: number) => (
                   <motion.span
                     key={charIndex}
                     initial={initial}
@@ -166,7 +197,7 @@ const RotatingText = forwardRef((props, ref) => {
                       ...transition,
                       delay: getStaggerDelay(
                         previousCharsCount + charIndex,
-                        array.reduce((sum, word) => sum + word.characters.length, 0),
+                        totalChars,
                       ),
                     }}
                     className={cn("text-rotate-element", elementLevelClassName)}
