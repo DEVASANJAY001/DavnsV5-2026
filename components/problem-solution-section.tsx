@@ -4,24 +4,24 @@ import { Button } from "@/components/ui/button"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 
-const AlertTriangle = () => (
-  <svg className="h-6 w-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+const ProblemIcon = () => (
+  <svg className="h-8 w-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-2.186-.833-2.956 0L3.858 16.5c-.77.833.192 2.5 1.732 2.5z"
+      strokeWidth={1.5}
+      d="M13 10V3L4 14h7v7l9-11h-7z"
     />
   </svg>
 )
 
-const CheckCircle = () => (
-  <svg className="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+const SolutionIcon = () => (
+  <svg className="h-8 w-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={2}
-      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+      strokeWidth={1.5}
+      d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z"
     />
   </svg>
 )
@@ -74,14 +74,14 @@ export function ProblemSolutionSection() {
             }`}
         >
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-6">
-            <span className="w-2 h-2 bg-red-400 rounded-full mr-2 animate-pulse"></span>
-            The Problem with Existing Platforms
+            <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+            From Problems to Intelligent Solutions
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance mb-4 sm:mb-6">
-            Real-World <span className="text-red-400">Challenges</span> of Modern Systems
+            The <span className="text-blue-400">Challenge</span> & <span className="text-blue-400">Solution</span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-3xl mx-auto font-light leading-relaxed">
-            Existing platforms fail to address real user problems. Manual processes reduce efficiency and scalability.
+            We understand the real obstacles enterprises face. We build intelligent solutions that matter.
           </p>
         </div>
 
@@ -92,38 +92,30 @@ export function ProblemSolutionSection() {
         >
           {/* Problem Card */}
           <div className="group">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 h-full hover:bg-white/10 transition-all duration-500 hover:border-red-400/30">
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 h-full hover:bg-white/10 transition-all duration-500 hover:border-blue-400/30">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-red-500/20">
-                  <AlertTriangle />
+                <div className="p-2 rounded-lg bg-blue-500/20">
+                  <ProblemIcon />
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-red-400">The Reality</h3>
-              </div>
-
-              {/* Key Stat */}
-              <div className="bg-red-500/10 backdrop-blur-sm border border-red-500/20 rounded-xl p-4 sm:p-6 mb-6">
-                <div className="text-3xl sm:text-4xl font-bold text-red-400 mb-2">The Reality</div>
-                <p className="text-white/80 text-sm sm:text-base">
-                  Manual processes, lack of intelligent automation, poor UX and outdated systems limit potential
-                </p>
+                <h3 className="text-xl sm:text-2xl font-bold text-blue-400">The Reality</h3>
               </div>
 
               {/* Problem Points */}
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-white/70 text-sm sm:text-base">
+                    Manual processes, lack of intelligent automation, poor UX and outdated systems limit potential
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-white/70 text-sm sm:text-base">
                     Existing platforms fail to address real user problems
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-white/70 text-sm sm:text-base">
-                    Manual processes reduce efficiency and scalability
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-white/70 text-sm sm:text-base">Lack of intelligent automation in critical workflows</p>
                 </div>
               </div>
@@ -132,34 +124,26 @@ export function ProblemSolutionSection() {
 
           {/* Solution Card */}
           <div className="group">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 h-full hover:bg-white/10 transition-all duration-500 hover:border-green-400/30">
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 h-full hover:bg-white/10 transition-all duration-500 hover:border-blue-400/30">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-green-500/20">
-                  <CheckCircle />
+                <div className="p-2 rounded-lg bg-blue-500/20">
+                  <SolutionIcon />
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-green-400">Our Solution</h3>
-              </div>
-
-              {/* Key Stat */}
-              <div className="bg-green-500/10 backdrop-blur-sm border border-green-500/20 rounded-xl p-4 sm:p-6 mb-6">
-                <div className="text-3xl sm:text-4xl font-bold text-green-400 mb-2">Our Approach</div>
-                <p className="text-white/80 text-sm sm:text-base">
-                  AI-powered intelligent systems, scalable platforms, and user-friendly solutions for real-world impact
-                </p>
+                <h3 className="text-xl sm:text-2xl font-bold text-blue-400">Our Solution</h3>
               </div>
 
               {/* Solution Points */}
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <CheckCircle />
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-white/70 text-sm sm:text-base">Identify problems through research and analysis</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle />
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-white/70 text-sm sm:text-base">Build AI-powered intelligent systems for automation</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <CheckCircle />
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
                   <p className="text-white/70 text-sm sm:text-base">Develop scalable, high-performance, user-friendly solutions</p>
                 </div>
               </div>
@@ -172,23 +156,23 @@ export function ProblemSolutionSection() {
           className={`grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16 transition-all duration-1000 delay-600 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
-          <div className="text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-300">
-            <div className="text-2xl sm:text-3xl font-bold text-white mb-2">15+</div>
+          <div className="text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-300 hover:border-blue-400/30">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-400 mb-2">15+</div>
             <p className="text-white/70 text-xs sm:text-sm">Projects Delivered</p>
           </div>
-          <div className="text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-300">
-            <div className="text-2xl sm:text-3xl font-bold text-white mb-2">Research-Driven</div>
+          <div className="text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-300 hover:border-blue-400/30">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-400 mb-2">Research-Driven</div>
             <p className="text-white/70 text-xs sm:text-sm">Innovation at Core</p>
           </div>
-          <div className="text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-300">
-            <div className="text-2xl sm:text-3xl font-bold text-white mb-2">Real-Time</div>
+          <div className="text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-300 hover:border-blue-400/30">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-400 mb-2">Real-Time</div>
             <p className="text-white/70 text-xs sm:text-sm">Intelligent Systems</p>
           </div>
         </div>
 
         {/* CTA Section */}
         <div
-          className={`text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 transition-all duration-1000 delay-900 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`text-center bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 transition-all duration-1000 delay-900 hover:bg-white/10 hover:border-blue-400/30 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4 text-balance">

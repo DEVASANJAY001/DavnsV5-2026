@@ -29,10 +29,10 @@ const footerLinks: FooterSection[] = [
   {
     label: "Social Links",
     links: [
-      { title: "LinkedIn", href: "#", icon: LinkedinIcon },
-      { title: "Instagram", href: "#", icon: InstagramIcon },
-      { title: "Facebook", href: "#", icon: FacebookIcon },
-      { title: "YouTube", href: "#", icon: YoutubeIcon },
+      { title: "LinkedIn", href: "https://www.linkedin.com/company/davnsindustriesoffi", icon: LinkedinIcon },
+      { title: "Instagram", href: "https://www.instagram.com/davns.in", icon: InstagramIcon },
+      { title: "Facebook", href: "https://www.facebook.com/davns.in", icon: FacebookIcon },
+      { title: "YouTube", href: "https://www.youtube.com/@davns", icon: YoutubeIcon },
     ],
   },
 ]

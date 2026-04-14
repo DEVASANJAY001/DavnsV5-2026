@@ -39,12 +39,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "DAVNS Industries" }],
   creator: "DAVNS Industries",
-  publisher: "DAVNS Industries",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
   metadataBase: new URL("https://davns.com"),
   alternates: {
     canonical: "/",
@@ -56,7 +50,7 @@ export const metadata: Metadata = {
     siteName: "DAVNS Industries",
     images: [
       {
-        url: "/favicon.png", // Using favicon as the default OG image for now, ideally should be a larger banner
+        url: "/favicon.png",
         width: 800,
         height: 600,
       },
@@ -76,17 +70,6 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   manifest: "/manifest.json",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
 }
 
 export default function RootLayout({
