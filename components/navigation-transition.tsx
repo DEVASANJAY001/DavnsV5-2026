@@ -81,13 +81,18 @@ export function NavigationTransition() {
         const url = new URL(link.href)
 
         if (url.pathname !== pathname && !url.hash && !link.hasAttribute("download") && link.target !== "_blank") {
+          // If in development mode, route instantly without showing overlay, as Next compiles on demand
+          if (process.env.NODE_ENV !== "production") {
+            return;
+          }
+          
           e.preventDefault()
           setIsTransitioning(true)
 
           // Navigate after animation has started
           setTimeout(() => {
             router.push(url.pathname)
-          }, 800) // Increased time to show the geometric animation
+          }, 150) // Reduced from 800ms for faster, snappy page loading
         }
       }
     }
@@ -101,7 +106,7 @@ export function NavigationTransition() {
       // Small delay to ensure the new page is ready to fade in
       setTimeout(() => {
         setIsTransitioning(false)
-      }, 300)
+      }, 100) // Reduced from 300ms for faster transition resolution
       previousPathname.current = pathname
     }
   }, [pathname])

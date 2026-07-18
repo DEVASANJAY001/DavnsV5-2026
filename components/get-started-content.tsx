@@ -3,7 +3,7 @@
 import { useRef, useState } from "react"
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
-import Aurora from "@/components/Aurora"
+import { AuroraBackground } from "@/components/aurora-background"
 import { Button } from "@/components/ui/button"
 import { Mail, MessageSquare, Send } from "lucide-react"
 import { motion } from "framer-motion"
@@ -35,7 +35,7 @@ export function GetStartedContent() {
         <div className="min-h-screen bg-black overflow-hidden selection:bg-white/20">
             <main className="min-h-screen relative overflow-hidden">
                 <div className="fixed inset-0 w-full h-full">
-                    <Aurora colorStops={["#475569", "#64748b", "#475569"]} amplitude={1.2} blend={0.6} speed={0.8} />
+                    <AuroraBackground colorStops={["#475569", "#64748b", "#475569"]} amplitude={1.2} blend={0.6} speed={0.8} />
                 </div>
 
                 <div className="relative z-10 flex flex-col min-h-screen">
@@ -69,11 +69,8 @@ export function GetStartedContent() {
                                             <div>
                                                 <h3 className="text-white font-semibold text-lg">Email Us</h3>
                                                 <div className="space-y-1 mt-1">
-                                                    <a href="mailto:davnsindustries@outlook.com" className="block text-slate-400 hover:text-white transition-colors">
-                                                        davnsindustries@outlook.com
-                                                    </a>
-                                                    <a href="mailto:davnsindustries@hotmail.com" className="block text-slate-400 hover:text-white transition-colors">
-                                                        davnsindustries@hotmail.com
+                                                    <a href="mailto:davnsindustries@gmail.com" className="block text-slate-400 hover:text-white transition-colors">
+                                                        davnsindustries@gmail.com
                                                     </a>
                                                 </div>
                                             </div>

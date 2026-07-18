@@ -20,22 +20,35 @@ const footerLinks: FooterSection[] = [
   {
     label: "Company",
     links: [
-      { title: "About", href: "/about" },
+      { title: "About Us", href: "/about" },
+      { title: "Projects", href: "/projects" },
       { title: "Contact", href: "/contact" },
+      { title: "Get Started", href: "/get-started" },
       { title: "Privacy Policy", href: "/privacy" },
       { title: "Terms of Service", href: "/terms" },
+    ],
+  },
+  {
+    label: "Services",
+    links: [
+      { title: "AI Automation", href: "/services" },
+      { title: "Computer Vision", href: "/services" },
+      { title: "Conversational AI", href: "/solutions" },
+      { title: "Enterprise Software", href: "/services" },
+      { title: "Analytics Dashboards", href: "/services" },
+      { title: "Car Dealership AI", href: "/car-dealerships" },
     ],
   },
   {
     label: "Social Links",
     links: [
       { title: "LinkedIn", href: "https://www.linkedin.com/company/davnsindustriesoffi", icon: LinkedinIcon },
-      { title: "Instagram", href: "https://www.instagram.com/davns.in", icon: InstagramIcon },
-      { title: "Facebook", href: "https://www.facebook.com/davns.in", icon: FacebookIcon },
+      { title: "Instagram", href: "https://instagram.com/@davnsindustries", icon: InstagramIcon },
       { title: "YouTube", href: "https://www.youtube.com/@davns", icon: YoutubeIcon },
     ],
   },
 ]
+
 
 export function Footer() {
   return (
@@ -50,7 +63,7 @@ export function Footer() {
           </div>
         </AnimatedContainer>
 
-        <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-2 xl:mt-0">
+        <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-3 xl:mt-0">
           {footerLinks.map((section, index) => (
             <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
               <div className="mb-10 md:mb-0">
@@ -61,6 +74,7 @@ export function Footer() {
                       <a
                         href={link.href}
                         className="hover:text-foreground inline-flex items-center transition-all duration-300"
+                        {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       >
                         {link.icon && <link.icon className="me-1 size-4" />}
                         {link.title}
@@ -81,8 +95,7 @@ export function Footer() {
       <div className="hidden md:block mt-8 pt-6 border-t border-foreground/10 w-full">
         <p className="text-muted-foreground text-xs text-center">DAVNS Industries - Building Intelligent Platforms for the Future</p>
         <div className="mt-2 flex justify-center gap-4 text-xs text-muted-foreground">
-          <a href="mailto:davnsindustries@outlook.com" className="hover:text-foreground transition-colors">davnsindustries@outlook.com</a>
-          <a href="mailto:davnsindustries@hotmail.com" className="hover:text-foreground transition-colors">davnsindustries@hotmail.com</a>
+          <a href="mailto:davnsindustries@gmail.com" className="hover:text-foreground transition-colors">davnsindustries@gmail.com</a>
         </div>
       </div>
     </footer>

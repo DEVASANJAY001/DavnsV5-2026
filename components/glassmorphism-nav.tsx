@@ -7,10 +7,11 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 
 const navigation = [
-  { name: "Services", href: "#features" },
-  { name: "Solutions", href: "#ai-team" },
-  { name: "Projects", href: "#testimonials" },
-  { name: "Contact", href: "#contact" },
+  { name: "Services", href: "/services" },
+  { name: "Solutions", href: "/solutions" },
+  { name: "Projects", href: "/projects" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ]
 
 export function GlassmorphismNav() {
@@ -61,7 +62,6 @@ export function GlassmorphismNav() {
   }, []) // Removed lastScrollY dependency to prevent infinite re-renders
 
   const scrollToTop = () => {
-    console.log("[v0] Scrolling to top")
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
