@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation, useSearchParams } from "react-router-do
 import { useAuth } from "@/context/AuthContext"
 import { Footer } from "@/components/footer"
 import { PhoneInputWithCountry } from "@/components/ui/phone-input-with-country"
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from "lucide-react"
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 
 export default function LoginPage() {
@@ -132,8 +132,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900 flex flex-col justify-between">
-      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12 sm:py-16 relative overflow-hidden">
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900 flex flex-col justify-between relative">
+      {/* Return to Main Page Top Button */}
+      <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-20">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-xs font-mono font-medium text-slate-600 hover:text-slate-950 px-3.5 py-2 rounded-full border border-slate-200/80 bg-white/80 hover:bg-white backdrop-blur-md transition-all duration-200 shadow-2xs hover:shadow-xs group cursor-pointer"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1 text-slate-500 group-hover:text-slate-900" />
+          <span>Return to main page</span>
+        </Link>
+      </div>
+
+      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 pt-20 pb-12 sm:py-16 relative overflow-hidden">
         {/* Background glow effects */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(237,233,254,0.7),transparent_70%)] pointer-events-none" />
         <div className="absolute top-20 right-10 w-96 h-96 bg-yellow-200/20 rounded-full blur-3xl pointer-events-none" />
@@ -340,6 +351,17 @@ export default function LoginPage() {
                 </button>
               </div>
             </form>
+
+            {/* Return to Main Page Link */}
+            <div className="mt-6 pt-4 text-center">
+              <Link
+                to="/"
+                className="text-xs text-slate-500 hover:text-slate-900 font-mono inline-flex items-center gap-1.5 transition-colors group"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                <span>Return to main page</span>
+              </Link>
+            </div>
 
           </motion.div>
 
