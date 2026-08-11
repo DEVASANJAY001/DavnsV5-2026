@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if request is from the owner of the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // 1. Users collection (registration, phone numbers, profile data, roles)
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated();
+      allow delete: if isOwner(userId);
+    }
+
+    // 2. Support Tickets & Live Chat Message Threads
+    match /tickets/{ticketId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+
+    // 3. Visitor Telemetry & Geolocation Analytics
+    match /analytics_visits/{visitId} {
+      allow create: if true; // Public visitor logging
+      allow read: if isAuthenticated();
+      allow update, delete: if isAuthenticated();
+    }
+
+    match /analytics_daily/{dateId} {
+      allow create, update: if true; // Daily visit counter increments
+      allow read: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+  }
+}

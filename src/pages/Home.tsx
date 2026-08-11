@@ -4,6 +4,7 @@ import { IsometricIntegrationWave } from "@/components/isometric-integration-wav
 import { ModularPossibilitiesBento } from "@/components/modular-possibilities-bento"
 import { HowItWorksCarousel } from "@/components/how-it-works-carousel"
 import { WhyDavnsSection } from "@/components/why-davns-section"
+import { PerspectiveHomeCallout } from "@/components/perspective/perspective-home-callout"
 import { DualJourneyBento } from "@/components/dual-journey-bento"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { Footer } from "@/components/footer"
@@ -20,15 +21,17 @@ export default function HomePage() {
           <IsometricIntegrationWave />
           {/* 3. Modular Possibilities - white bg (top fade from dark) */}
           <ModularPossibilitiesBento />
-          {/* 4. How We Build - slate-50 bg */}
+          {/* 4. Live Event Callout - DAVNS Perspective 2026 */}
+          <PerspectiveHomeCallout />
+          {/* 5. How We Build - slate-50 bg */}
           <HowItWorksCarousel />
-          {/* 5. Why DAVNS - white bg */}
+          {/* 6. Why DAVNS - white bg */}
           <WhyDavnsSection />
-          {/* 6. Dual Journey - white bg */}
+          {/* 7. Dual Journey - white bg */}
           <DualJourneyBento />
-          {/* 7. Testimonials - dark bg */}
+          {/* 8. Testimonials - dark bg */}
           <TestimonialsSection />
-          {/* 8. Footer - dark with CTA */}
+          {/* 9. Footer - dark with CTA */}
           <Footer />
         </div>
       </main>

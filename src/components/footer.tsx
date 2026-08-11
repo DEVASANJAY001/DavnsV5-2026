@@ -16,7 +16,7 @@ const footerLinks = {
     title: "Company",
     links: [
       { name: "About us", href: "/about" },
-      { name: "Our process", href: "/services" },
+      { name: "Perspective 2026 (Live)", href: "/perspective" },
       { name: "Case studies", href: "/projects" },
       { name: "Automotive AI", href: "/car-dealerships" },
     ],

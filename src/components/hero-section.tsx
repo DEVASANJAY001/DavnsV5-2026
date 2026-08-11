@@ -72,18 +72,35 @@ export function HeroSection() {
 
       <div className="max-w-6xl mx-auto w-full relative z-10">
 
-        {/* ── Top Pill Badge ── */}
+        {/* ── Compact Live Event Badge with Connected "View Details" Button ── */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="flex justify-center mb-8"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EDE9FE] text-[#7C3AED] text-xs font-semibold tracking-wide border border-purple-200 shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#7C3AED] animate-pulse" />
-            Next-Gen AI Automation Platform
-            <Sparkles className="w-3 h-3" />
-          </span>
+          <div className="inline-flex items-center p-1 rounded-full bg-slate-100/90 border border-slate-200/90 shadow-xs hover:border-purple-200 transition-all backdrop-blur-sm">
+            {/* Left Tag */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-slate-800">
+              <span className="w-2 h-2 rounded-full bg-[#7C3AED] animate-pulse shrink-0" />
+              <span className="font-mono uppercase font-bold text-[10.5px] tracking-wide text-[#7C3AED]">
+                PERSPECTIVE 2026
+              </span>
+              <span className="text-slate-300 hidden sm:inline">•</span>
+              <span className="text-[11px] text-slate-600 font-normal hidden sm:inline">
+                The Thinking Challenge
+              </span>
+            </div>
+
+            {/* Connected View Details Button */}
+            <Link
+              to="/perspective"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-900 text-white hover:bg-[#7C3AED] text-[11px] font-mono font-bold tracking-wider uppercase transition-all duration-200 hover:scale-105 active:scale-95 shadow-2xs group cursor-pointer"
+            >
+              <span>View Details</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
         </motion.div>
 
         {/* ── Hero Headline with Smooth Morphing Highlight Word ── */}
