@@ -40,16 +40,16 @@ export async function trackPageView(pathname: string) {
     }
 
     try {
-      const res = await fetch("https://freeipapi.com/api/json", { signal: AbortSignal.timeout(2000) })
+      const res = await fetch("https://ipwho.is/", { signal: AbortSignal.timeout(2000) })
       if (res.ok) {
         const data = await res.json()
-        if (data.ipAddress) {
+        if (data.ip) {
           geoData = {
-            ip: data.ipAddress || "Active IP",
-            country_name: data.countryName || "Global",
-            city: data.cityName || "Active Node",
-            region: data.regionName || "",
-            country_code: data.countryCode || "IN",
+            ip: data.ip || "Active IP",
+            country_name: data.country || "Global",
+            city: data.city || "Active Node",
+            region: data.region || "",
+            country_code: data.country_code || "IN",
           }
         }
       }
