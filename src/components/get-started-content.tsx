@@ -148,12 +148,12 @@ export function GetStartedContent() {
               {/* Direct Channels */}
               <div className="bg-slate-50 rounded-[28px] p-5 border border-slate-200 space-y-2.5">
                 <a
-                  href="mailto:contact@davns.in"
+                  href="mailto:davnsindustries@gmail.com"
                   className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-white text-slate-900 text-xs font-bold border border-slate-200/80 shadow-xs hover:bg-slate-50 transition-all cursor-pointer group"
                 >
                   <div className="flex items-center gap-2.5">
                     <Mail className="w-4 h-4 text-slate-700" />
-                    <span>contact@davns.in</span>
+                    <span>davnsindustries@gmail.com</span>
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform" />
                 </a>

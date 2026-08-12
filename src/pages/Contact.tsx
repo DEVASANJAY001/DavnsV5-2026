@@ -103,8 +103,8 @@ export default function ContactPage() {
                     <div className="w-8 h-8 rounded-xl bg-black flex items-center justify-center shrink-0">
                       <Mail className="w-4 h-4 text-yellow-400" />
                     </div>
-                    <a href="mailto:contact@davns.in" className="hover:underline">
-                      contact@davns.in
+                    <a href="mailto:davnsindustries@gmail.com" className="hover:underline">
+                      davnsindustries@gmail.com
                     </a>
                   </div>
                 </div>
@@ -129,7 +129,7 @@ export default function ContactPage() {
                 {/* Direct buttons */}
                 <div className="space-y-2.5">
                   <a
-                    href="mailto:contact@davns.in?subject=Technical%20Consultation%20Inquiry"
+                    href="mailto:davnsindustries@gmail.com?subject=Technical%20Consultation%20Inquiry"
                     className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-white text-slate-900 text-xs font-bold shadow-xs hover:bg-slate-50 transition-all cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">

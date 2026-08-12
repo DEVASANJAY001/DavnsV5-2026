@@ -43,6 +43,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 // Designated master admin emails that automatically get admin clearance
 export const INITIAL_ADMIN_EMAILS = [
+  "davnsindustries@gmail.com",
   "contact@davns.in",
   "admin@davns.in",
   "devas@davns.in",

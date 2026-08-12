@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Bot, Eye, Workflow, Server, Smartphone, Cpu, Sparkles, ArrowRight, TrendingUp, Zap, Trophy } from "lucide-react"
+import { Bot, Eye, Workflow, Server, Smartphone, Cpu, Sparkles, ArrowRight, TrendingUp, Zap, Trophy, Building2 } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const capabilities = [
@@ -406,18 +406,12 @@ export function HeroSection() {
           >
             {/* Client Social Proof */}
             <div className="bg-slate-50 rounded-[24px] p-4 border border-slate-200 flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {[
-                  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop",
-                ].map((src, i) => (
-                  <img key={i} src={src} className="w-8 h-8 rounded-full ring-2 ring-white object-cover" alt="client" />
-                ))}
+              <div className="w-10 h-10 rounded-2xl bg-slate-900 text-[#FACC15] flex items-center justify-center shadow-2xs shrink-0">
+                <Building2 className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-sm font-bold text-slate-900">15+ Clients</div>
-                <div className="text-[11px] text-slate-500">Enterprise Deployments</div>
+                <div className="text-[11px] text-slate-500 font-mono">Enterprise Deployments</div>
               </div>
             </div>
 

@@ -105,7 +105,9 @@ export function Footer() {
                 </div>
                 <div className="flex items-center gap-2.5">
                   <Mail className="w-4 h-4 text-slate-600 shrink-0" />
-                  contact@davns.in
+                  <a href="mailto:davnsindustries@gmail.com" className="hover:text-white transition-colors">
+                    davnsindustries@gmail.com
+                  </a>
                 </div>
               </div>
               <div className="flex items-center gap-3">

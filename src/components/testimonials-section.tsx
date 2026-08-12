@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, Star, Quote, Sparkles, TrendingUp } from "lucide-react"
+import { motion } from "framer-motion"
+import { Star, Quote, Sparkles, TrendingUp, Building2, Cpu, Layers, Briefcase } from "lucide-react"
 
 const testimonials = [
   {
@@ -8,7 +8,9 @@ const testimonials = [
     name: "Arul",
     role: "Operations Director",
     company: "Auto Group India",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
+    icon: Building2,
+    iconColor: "text-purple-600",
+    iconBg: "bg-purple-100 border-purple-200",
     metric: "+3× Leads",
     metricColor: "#7C3AED",
     metricBg: "#EDE9FE",
@@ -19,7 +21,9 @@ const testimonials = [
     name: "Darshini",
     role: "Chief Technology Officer",
     company: "Manufacturing Co.",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
+    icon: Cpu,
+    iconColor: "text-orange-600",
+    iconBg: "bg-orange-100 border-orange-200",
     metric: "+40% QA",
     metricColor: "#F97316",
     metricBg: "#FFF7ED",
@@ -30,7 +34,9 @@ const testimonials = [
     name: "Aadhav",
     role: "Founder & CEO",
     company: "Startup Ventures",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80",
+    icon: Layers,
+    iconColor: "text-emerald-400",
+    iconBg: "bg-white/10 border-white/15",
     metric: "4 wks live",
     metricColor: "#10B981",
     metricBg: "#ECFDF5",
@@ -39,11 +45,8 @@ const testimonials = [
 ]
 
 export function TestimonialsSection() {
-  const [active, setActive] = useState(0)
-  const current = testimonials[active]
-
   return (
-    <section id="testimonials" className="py-28 sm:py-36 px-4 sm:px-6 lg:px-8 relative z-10 overflow-hidden bg-slate-950">
+    <section id="testimonials" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative z-10 overflow-hidden bg-slate-950">
       
       {/* Glowing orbs */}
       <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-violet-700/10 rounded-full blur-3xl pointer-events-none" />
@@ -57,19 +60,19 @@ export function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-14 sm:mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-white/80 text-xs font-mono mb-4 tracking-widest uppercase border border-white/10 backdrop-blur">
             <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
             Client Stories
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight">
             What our clients say
           </h2>
         </motion.div>
 
         {/* ── Mosaic Layout: 3-card at once ── */}
-        <div className="grid md:grid-cols-3 gap-5 mb-12">
+        <div className="grid md:grid-cols-3 gap-5 mb-10">
           
           {/* Card 1: Large Quote (Lilac) */}
           <motion.div
@@ -77,7 +80,7 @@ export function TestimonialsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="md:col-span-2 bg-[#EDE9FE] rounded-[32px] p-8 flex flex-col justify-between card-lift"
+            className="md:col-span-2 bg-[#EDE9FE] rounded-[32px] p-7 sm:p-8 flex flex-col justify-between card-lift"
           >
             <div>
               <Quote className="w-8 h-8 text-violet-300 mb-4" />
@@ -87,7 +90,9 @@ export function TestimonialsSection() {
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <img src={testimonials[0].avatar} alt={testimonials[0].name} className="w-11 h-11 rounded-full object-cover border-2 border-white shadow" />
+                <div className="w-11 h-11 rounded-2xl bg-white border border-purple-200 flex items-center justify-center text-purple-700 shadow-2xs">
+                  <Building2 className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="text-sm font-bold text-slate-900">{testimonials[0].name}</div>
                   <div className="text-xs text-slate-600">{testimonials[0].role} · {testimonials[0].company}</div>
@@ -110,7 +115,7 @@ export function TestimonialsSection() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="bg-[#FACC15] rounded-[28px] p-6 text-center card-lift"
             >
-              <div className="text-5xl font-extrabold text-slate-900 font-mono mb-1">98%</div>
+              <div className="text-4xl sm:text-5xl font-extrabold text-slate-900 font-mono mb-1">98%</div>
               <div className="text-sm font-semibold text-slate-800">Verified client satisfaction</div>
               <div className="flex justify-center gap-1 mt-3">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -131,7 +136,9 @@ export function TestimonialsSection() {
                 "{testimonials[2].quote}"
               </p>
               <div className="flex items-center gap-3">
-                <img src={testimonials[2].avatar} alt={testimonials[2].name} className="w-9 h-9 rounded-full object-cover" />
+                <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-emerald-400">
+                  <Layers className="w-4 h-4" />
+                </div>
                 <div>
                   <div className="text-xs font-bold text-white">{testimonials[2].name}</div>
                   <div className="text-[11px] text-slate-400">{testimonials[2].role}</div>
@@ -148,10 +155,12 @@ export function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-[#FFF7ED] rounded-[32px] p-7 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 card-lift"
+          className="bg-[#FFF7ED] rounded-[32px] p-6 sm:p-9 flex flex-col sm:flex-row items-start sm:items-center gap-6 card-lift"
         >
-          <div className="flex items-center gap-4 shrink-0">
-            <img src={testimonials[1].avatar} alt={testimonials[1].name} className="w-16 h-16 rounded-full object-cover border-4 border-orange-200 shadow-orange" />
+          <div className="flex items-center gap-3.5 shrink-0">
+            <div className="w-14 h-14 rounded-2xl bg-white border-2 border-orange-200 flex items-center justify-center text-orange-600 shadow-2xs">
+              <Cpu className="w-7 h-7" />
+            </div>
             <div>
               <div className="font-bold text-slate-900">{testimonials[1].name}</div>
               <div className="text-xs text-slate-600">{testimonials[1].role}</div>

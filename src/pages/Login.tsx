@@ -37,7 +37,14 @@ export default function LoginPage() {
       const isUserAdmin = Boolean(
         isAdmin ||
         userProfile?.role === "admin" ||
-        (currentUser.email && ["contact@davns.in", "admin@davns.in", "devas@davns.in"].includes(currentUser.email.toLowerCase()))
+        (currentUser.email && [
+          "davnsindustries@gmail.com",
+          "contact@davns.in",
+          "admin@davns.in",
+          "devas@davns.in",
+          "devasanjay14@gmail.com",
+          "devasanjaynatarajan@gmail.com",
+        ].includes(currentUser.email.toLowerCase()))
       )
 
       if (isUserAdmin) {
@@ -80,7 +87,14 @@ export default function LoginPage() {
         await registerWithEmail(email, password, fullName.trim(), fullPrimaryPhone, fullAltPhone)
       } else {
         await loginWithEmail(email, password)
-        const isEmailAdmin = ["contact@davns.in", "admin@davns.in", "devas@davns.in"].includes(email.trim().toLowerCase())
+        const isEmailAdmin = [
+          "davnsindustries@gmail.com",
+          "contact@davns.in",
+          "admin@davns.in",
+          "devas@davns.in",
+          "devasanjay14@gmail.com",
+          "devasanjaynatarajan@gmail.com",
+        ].includes(email.trim().toLowerCase())
         if (isEmailAdmin) {
           navigate("/admin", { replace: true })
           return
