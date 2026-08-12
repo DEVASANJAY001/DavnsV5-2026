@@ -13,6 +13,7 @@ import ContactPage from "@/pages/Contact"
 import GetStartedPage from "@/pages/GetStarted"
 import CarDealershipsPage from "@/pages/CarDealerships"
 import PerspectivePage from "@/pages/Perspective"
+import PerspectiveScoreboardPage from "@/pages/PerspectiveScoreboard"
 import PrivacyPage from "@/pages/Privacy"
 import TermsPage from "@/pages/Terms"
 import NotFoundPage from "@/pages/NotFound"
@@ -95,6 +96,7 @@ export default function App() {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/perspective" element={<PerspectivePage />} />
         <Route path="/perspective-2026" element={<PerspectivePage />} />
+        <Route path="/perspective/scoreboard" element={<PerspectiveScoreboardPage />} />
         <Route path="/car-dealerships" element={<CarDealershipsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/get-started" element={<GetStartedPage />} />

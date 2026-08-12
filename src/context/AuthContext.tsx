@@ -42,7 +42,14 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 // Designated master admin emails that automatically get admin clearance
-export const INITIAL_ADMIN_EMAILS = ["contact@davns.in", "admin@davns.in", "devas@davns.in"]
+export const INITIAL_ADMIN_EMAILS = [
+  "contact@davns.in",
+  "admin@davns.in",
+  "devas@davns.in",
+  "devasanjay14@gmail.com",
+  "devasanjaynatarajan@gmail.com",
+  "admin@davns.com",
+]
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
@@ -60,6 +67,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         try {
           const userRef = doc(db, "users", user.uid)
+          const isInitialAdmin = Boolean(
+            user.email && INITIAL_ADMIN_EMAILS.includes(user.email.toLowerCase())
+          )
 
           // Live Firestore profile listener
           unsubscribeProfile = onSnapshot(
@@ -72,10 +82,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                   data.photoURL = user.photoURL
                   setDoc(userRef, { photoURL: user.photoURL }, { merge: true }).catch(() => {})
                 }
+                // Auto-sync admin role if email is in INITIAL_ADMIN_EMAILS
+                if (isInitialAdmin && data.role !== "admin") {
+                  data.role = "admin"
+                  setDoc(userRef, { role: "admin" }, { merge: true }).catch(() => {})
+                }
                 setUserProfile(data)
               } else {
                 // First-time document creation ONLY upon new signup
-                const isInitialAdmin = Boolean(user.email && INITIAL_ADMIN_EMAILS.includes(user.email.toLowerCase()))
                 const newProfile: UserProfile = {
                   uid: user.uid,
                   email: user.email || "",

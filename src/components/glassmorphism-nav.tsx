@@ -15,7 +15,8 @@ const navLinks: NavLink[] = [
   { name: "Services", href: "/services" },
   { name: "Solutions", href: "/solutions" },
   { name: "Projects", href: "/projects" },
-  { name: "Dealership AI", href: "/car-dealerships" },
+  { name: "Perspective 2026", href: "/perspective", badge: "LIVE" },
+  { name: "Score Card", href: "/perspective/scoreboard" },
   { name: "Contact", href: "/contact" },
 ]
 
@@ -69,15 +70,15 @@ export function GlassmorphismNav() {
     .toUpperCase()
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-3.5 sm:px-8 lg:px-12 pt-3 sm:pt-6">
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-2.5 sm:px-6 lg:px-8 pt-3 sm:pt-5">
       <nav
         aria-label="Main Navigation"
-        className={`w-full max-w-7xl transition-all duration-300 border backdrop-blur-2xl ${
+        className={`w-full max-w-[1440px] transition-all duration-300 border backdrop-blur-2xl ${
           isMobileMenuOpen
             ? "rounded-[32px] bg-white border-slate-200 shadow-2xl p-5"
             : isScrolled
-            ? "rounded-full bg-white/95 border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.06)] py-3 px-5 sm:px-10"
-            : "rounded-full bg-white/85 border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-3.5 px-5 sm:px-10"
+            ? "rounded-full bg-white/95 border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.06)] py-3 px-6 sm:px-10 lg:px-12"
+            : "rounded-full bg-white/85 border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-3.5 px-6 sm:px-10 lg:px-12"
         }`}
       >
         <div className="flex items-center justify-between">

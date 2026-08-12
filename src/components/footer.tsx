@@ -7,6 +7,7 @@ const footerLinks = {
     title: "Platform",
     links: [
       { name: "AI Agents", href: "/services" },
+      { name: "Dealership AI", href: "/car-dealerships" },
       { name: "Computer Vision", href: "/services" },
       { name: "Workflow Automation", href: "/services" },
       { name: "Mobile & Web", href: "/services" },
@@ -17,8 +18,9 @@ const footerLinks = {
     links: [
       { name: "About us", href: "/about" },
       { name: "Perspective 2026 (Live)", href: "/perspective" },
+      { name: "Score Card (Leaderboard)", href: "/perspective/scoreboard" },
+      { name: "Dealership AI", href: "/car-dealerships" },
       { name: "Case studies", href: "/projects" },
-      { name: "Automotive AI", href: "/car-dealerships" },
     ],
   },
   legal: {

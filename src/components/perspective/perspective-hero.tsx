@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Sparkles, ArrowRight, Brain, Calendar, Trophy, Zap, Compass, CheckCircle2, ChevronRight, ExternalLink, Maximize2, ShieldCheck, Award } from "lucide-react"
 
@@ -78,7 +79,7 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#EDE9FE] border border-[#7C3AED]/30 text-[#7C3AED] text-xs font-semibold tracking-wide shadow-xs mb-6 sm:mb-8 hover:scale-105 transition-transform"
+          className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#EDE9FE] border border-[#7C3AED]/30 text-[#7C3AED] text-xs font-semibold tracking-wide shadow-xs mb-6 sm:mb-8"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C3AED] opacity-75" />
@@ -88,10 +89,18 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
             LIVE CHALLENGE • REGISTRATION OPEN
           </span>
           <span className="text-slate-400 hidden xs:inline">|</span>
-          <span className="font-semibold text-slate-800 hidden xs:flex items-center gap-1">
+          <span className="font-semibold text-slate-800 hidden xs:flex items-center gap-1 text-[11px]">
             <Calendar className="w-3.5 h-3.5 text-[#7C3AED]" />
             SEPTEMBER 1–6, 2026
           </span>
+          <span className="text-slate-400 hidden sm:inline">|</span>
+          <Link
+            to="/perspective/scoreboard"
+            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#7C3AED] text-white hover:bg-purple-700 text-[10px] font-mono font-black uppercase tracking-wider transition-all hover:scale-105 shadow-2xs cursor-pointer"
+          >
+            <Trophy className="w-3 h-3 text-[#FACC15]" />
+            <span>Score Card</span>
+          </Link>
         </motion.div>
 
         {/* Super Title & Main Headline */}
@@ -196,6 +205,16 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
               <ChevronRight className="w-4 h-4 text-slate-500" />
             </button>
           </a>
+
+          {/* Score Card Button */}
+          <Link to="/perspective/scoreboard" className="w-full sm:w-auto">
+            <button
+              className="w-full sm:w-auto rounded-full px-8 py-4 sm:py-5 text-sm sm:text-base font-semibold bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm"
+            >
+              <Trophy className="w-4 h-4 text-amber-400" />
+              <span>View Score Card</span>
+            </button>
+          </Link>
         </motion.div>
 
         {/* Live Countdown Grid */}
@@ -313,6 +332,14 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
                   <span>Register on Unstop</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
+
+                <Link
+                  to="/perspective/scoreboard"
+                  className="inline-flex items-center gap-2 bg-[#7C3AED] hover:bg-purple-700 text-white px-6 py-3 rounded-full font-mono text-xs font-black tracking-wider uppercase transition-all shadow-md cursor-pointer hover:scale-105 active:scale-95"
+                >
+                  <Trophy className="w-3.5 h-3.5 text-[#FACC15]" />
+                  <span>Score Card</span>
+                </Link>
 
                 <button
                   onClick={() => setIsPosterExpanded(true)}

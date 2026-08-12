@@ -15,7 +15,14 @@ service cloud.firestore {
     // Check if authenticated user has admin role or primary admin email
     function isAdmin() {
       return isAuthenticated() && (
-        (request.auth.token.email in ['devasanjay14@gmail.com', 'admin@davns.com']) ||
+        (request.auth.token.email in [
+          'contact@davns.in',
+          'admin@davns.in',
+          'devas@davns.in',
+          'devasanjay14@gmail.com',
+          'devasanjaynatarajan@gmail.com',
+          'admin@davns.com'
+        ]) ||
         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
       );
@@ -63,6 +70,30 @@ service cloud.firestore {
       allow create, update: if true; // Daily counter increments
       allow read: if isAuthenticated();
       allow delete: if isAdmin();
+    }
+
+    // 4. Perspective 2026 — Participants Scoreboard
+    match /perspective_participants/{participantId} {
+      // Public leaderboard: anyone can read scores
+      allow read: if true;
+      // Only admins can write (add, edit, delete) participant scores
+      allow create, update, delete: if isAdmin();
+    }
+
+    // 5. Perspective 2026 — Colleges Registry
+    match /perspective_colleges/{collegeId} {
+      // Public leaderboard: anyone can read college data
+      allow read: if true;
+      // Only admins can manage colleges
+      allow create, update, delete: if isAdmin();
+    }
+
+    // 6. Perspective 2026 — Configuration & Display Settings
+    match /perspective_settings/{settingId} {
+      // Public: anyone can read active display mode
+      allow read: if true;
+      // Only admins can change display mode
+      allow create, update, delete: if isAdmin();
     }
   }
 }

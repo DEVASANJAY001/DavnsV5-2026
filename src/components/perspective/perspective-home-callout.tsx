@@ -82,6 +82,14 @@ export function PerspectiveHomeCallout() {
                     <ExternalLink className="w-3.5 h-3.5 text-[#FACC15]" />
                   </button>
                 </a>
+
+                {/* Score Card Button */}
+                <Link to="/perspective/scoreboard" className="w-full sm:w-auto">
+                  <button className="w-full bg-white/5 hover:bg-white/10 text-slate-200 border border-white/15 py-3.5 px-6 rounded-full font-mono text-xs font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                    <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                    <span>View Score Card</span>
+                  </button>
+                </Link>
               </div>
             </div>
 
