@@ -7,37 +7,62 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Check if request is from the owner of the document
+    // Check if user is the document owner
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    // 1. Users collection (registration, phone numbers, profile data, roles)
-    match /users/{userId} {
-      allow read: if isAuthenticated();
-      allow create, update: if isAuthenticated();
-      allow delete: if isOwner(userId);
+    // Check if authenticated user has admin role or primary admin email
+    function isAdmin() {
+      return isAuthenticated() && (
+        (request.auth.token.email in ['devasanjay14@gmail.com', 'admin@davns.com']) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
     }
 
-    // 2. Support Tickets & Live Chat Message Threads
-    match /tickets/{ticketId} {
+    // 1. Users collection (profile, phone numbers, roles)
+    match /users/{userId} {
       allow read: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow update: if isAuthenticated();
-      allow delete: if isAuthenticated();
+      allow create: if isOwner(userId) || isAdmin();
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // 2. Support Tickets & Real-Time Chat Threads
+    match /tickets/{ticketId} {
+      // Users can read their own tickets; admins can read all
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      
+      // Authenticated users can create tickets assigned to themselves
+      allow create: if isAuthenticated() && (
+        request.resource.data.userId == request.auth.uid || isAdmin()
+      );
+      
+      // Users can reply/edit messages in their own tickets; admins can update status/reply to all
+      allow update: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      
+      // Admins or ticket owner can delete
+      allow delete: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
     }
 
     // 3. Visitor Telemetry & Geolocation Analytics
     match /analytics_visits/{visitId} {
-      allow create: if true; // Public visitor logging
+      allow create: if true; // Public telemetry logging
       allow read: if isAuthenticated();
-      allow update, delete: if isAuthenticated();
+      allow update, delete: if isAdmin();
     }
 
     match /analytics_daily/{dateId} {
-      allow create, update: if true; // Daily visit counter increments
+      allow create, update: if true; // Daily counter increments
       allow read: if isAuthenticated();
-      allow delete: if isAuthenticated();
+      allow delete: if isAdmin();
     }
   }
 }

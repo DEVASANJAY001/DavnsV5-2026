@@ -6,11 +6,14 @@ import {
   SupportTicket,
   createTicket,
   sendMessageInTicket,
+  editMessageInTicket,
+  deleteMessageInTicket,
   subscribeUserTickets,
   TicketStatus,
   TicketPriority,
 } from "@/lib/tickets-service"
 import { PhoneInputWithCountry } from "@/components/ui/phone-input-with-country"
+import { SupportChatLayout } from "@/components/chat/SupportChatLayout"
 import {
   Home,
   LayoutDashboard,
@@ -63,9 +66,6 @@ export default function UserDashboard() {
   // Tickets state
   const [tickets, setTickets] = useState<SupportTicket[]>([])
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null)
-  const [ticketFilter, setTicketFilter] = useState<"all" | TicketStatus>("all")
-  const [newMessageText, setNewMessageText] = useState("")
-  const [isSendingMessage, setIsSendingMessage] = useState(false)
 
   // New Ticket Modal State
   const [isNewTicketOpen, setIsNewTicketOpen] = useState(false)
@@ -151,9 +151,12 @@ export default function UserDashboard() {
     if (!currentUser) return
     const unsubscribe = subscribeUserTickets(currentUser.uid, (data) => {
       setTickets(data)
-      if (!selectedTicketId && data.length > 0) {
-        setSelectedTicketId(data[0].id)
-      }
+      setSelectedTicketId((prev) => {
+        if (prev && data.some((t) => t.id === prev)) {
+          return prev
+        }
+        return data.length > 0 ? data[0].id : null
+      })
     })
     return () => {
       if (unsubscribe) unsubscribe()
@@ -192,30 +195,42 @@ export default function UserDashboard() {
     }
   }
 
-  // Send message
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newMessageText.trim() || !selectedTicket || !currentUser) return
+  // Send message in ticket thread
+  const handleSendMessage = async (ticketId: string, text: string) => {
+    if (!text.trim() || !currentUser) return
+    const targetTicket = tickets.find((t) => t.id === ticketId)
+    if (!targetTicket) return
 
-    setIsSendingMessage(true)
     try {
       await sendMessageInTicket(
-        selectedTicket.id,
+        ticketId,
         {
           senderId: currentUser.uid,
           senderName: userProfile?.displayName || currentUser.email?.split("@")[0] || "User",
           senderRole: "user",
           senderPhoto: currentUser.photoURL || null,
-          text: newMessageText.trim(),
+          text: text.trim(),
         },
-        selectedTicket.messages || []
+        targetTicket.messages || []
       )
-      setNewMessageText("")
     } catch (err) {
       toast.error("Failed to send message.")
-    } finally {
-      setIsSendingMessage(false)
+      throw err
     }
+  }
+
+  // Edit message in ticket thread
+  const handleEditMessage = async (ticketId: string, messageId: string, newText: string) => {
+    const targetTicket = tickets.find((t) => t.id === ticketId)
+    if (!targetTicket) return
+    await editMessageInTicket(ticketId, messageId, newText, targetTicket.messages || [])
+  }
+
+  // Delete message in ticket thread
+  const handleDeleteMessage = async (ticketId: string, messageId: string) => {
+    const targetTicket = tickets.find((t) => t.id === ticketId)
+    if (!targetTicket) return
+    await deleteMessageInTicket(ticketId, messageId, targetTicket.messages || [])
   }
 
   // Create Ticket with Mandatory Phone Number
@@ -292,11 +307,6 @@ export default function UserDashboard() {
     await logout()
     navigate("/")
   }
-
-  const filteredTickets = tickets.filter((t) => {
-    if (ticketFilter === "all") return true
-    return t.status === ticketFilter
-  })
 
   // User initials
   const userInitials = (userProfile?.displayName || currentUser?.email || "U")
@@ -517,7 +527,13 @@ export default function UserDashboard() {
       </aside>
 
       {/* ── Main Dashboard Workspace ── */}
-      <main className="flex-1 p-3.5 sm:p-6 lg:p-10 max-h-screen overflow-y-auto w-full">
+      <main
+        className={`flex-1 w-full max-w-full overflow-hidden transition-all ${
+          activeTab === "support"
+            ? "p-0 h-[calc(100dvh-56px)] md:h-screen overflow-hidden flex flex-col bg-white"
+            : "p-3.5 sm:p-6 lg:p-10 max-h-screen overflow-y-auto bg-slate-50"
+        }`}
+      >
         
         {/* TAB 1: OVERVIEW */}
         {activeTab === "overview" && (
@@ -664,204 +680,20 @@ export default function UserDashboard() {
 
         {/* TAB 2: HELP CENTER & REAL-TIME SUPPORT CHAT */}
         {activeTab === "support" && (
-          <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6 animate-fade-in-simple">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                  Help Center & Live Chat
-                </h1>
-                <p className="text-xs sm:text-sm text-slate-500 font-light">
-                  Live real-time message stream with DAVNS engineers
-                </p>
-              </div>
-              <button
-                onClick={() => setIsNewTicketOpen(true)}
-                className="w-full sm:w-auto bg-[#7C3AED] hover:bg-purple-700 text-white rounded-full px-5 py-2.5 font-mono text-xs font-bold tracking-wider uppercase flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-                <span>New Ticket</span>
-              </button>
-            </div>
-
-            {/* Chat & Ticket Split Layout */}
-            <div className="grid lg:grid-cols-12 gap-4 sm:gap-6 bg-white rounded-[28px] sm:rounded-[32px] border border-slate-200 shadow-sm overflow-hidden min-h-[580px]">
-              
-              {/* Left Column: Tickets List */}
-              <div className="lg:col-span-4 border-r border-slate-200 flex flex-col justify-between">
-                <div>
-                  {/* Status Filters */}
-                  <div className="p-3.5 border-b border-slate-100 flex items-center gap-1.5 overflow-x-auto text-[10px] sm:text-[11px] font-mono font-bold">
-                    {(["all", "open", "in-progress", "closed"] as const).map((filter) => (
-                      <button
-                        key={filter}
-                        onClick={() => setTicketFilter(filter)}
-                        className={`px-3 py-1.5 rounded-xl uppercase transition-colors shrink-0 cursor-pointer ${
-                          ticketFilter === filter
-                            ? "bg-slate-900 text-white"
-                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                        }`}
-                      >
-                        {filter}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* List */}
-                  <div className="p-2.5 sm:p-3 space-y-2 max-h-[460px] overflow-y-auto">
-                    {filteredTickets.length === 0 ? (
-                      <div className="text-center py-10 text-xs text-slate-400">
-                        No tickets matching filter.
-                      </div>
-                    ) : (
-                      filteredTickets.map((t) => {
-                        const isSelected = selectedTicketId === t.id
-                        return (
-                          <div
-                            key={t.id}
-                            onClick={() => setSelectedTicketId(t.id)}
-                            className={`p-3 rounded-2xl border transition-all cursor-pointer space-y-1 ${
-                              isSelected
-                                ? "bg-purple-50/80 border-[#7C3AED] shadow-2xs"
-                                : "bg-white border-slate-200/80 hover:border-slate-300 hover:bg-slate-50"
-                            }`}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase ${
-                                t.status === "open"
-                                  ? "bg-amber-100 text-amber-800"
-                                  : t.status === "in-progress"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : "bg-emerald-100 text-emerald-800"
-                              }`}>
-                                {t.status}
-                              </span>
-                              <span className="text-[10px] font-mono text-slate-400">{t.category}</span>
-                            </div>
-                            <div className="text-xs font-bold text-slate-900 truncate">{t.subject}</div>
-                            <div className="text-[11px] text-slate-500 truncate font-light">{t.lastMessage}</div>
-                          </div>
-                        )
-                      })
-                    )}
-                  </div>
-                </div>
-
-                <div className="p-3.5 border-t border-slate-100 text-center">
-                  <div className="text-[10px] sm:text-[11px] font-mono text-slate-400">
-                    Showing {filteredTickets.length} of {tickets.length} tickets
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Active Live Chat Thread */}
-              <div className="lg:col-span-8 flex flex-col justify-between h-full bg-slate-50/50">
-                {selectedTicket ? (
-                  <>
-                    {/* Chat Header */}
-                    <div className="p-3.5 sm:p-5 bg-white border-b border-slate-200 flex items-center justify-between gap-3">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase ${
-                            selectedTicket.status === "open"
-                              ? "bg-amber-100 text-amber-800"
-                              : selectedTicket.status === "in-progress"
-                              ? "bg-blue-100 text-blue-800"
-                              : "bg-emerald-100 text-emerald-800"
-                          }`}>
-                            {selectedTicket.status}
-                          </span>
-                          <span className="text-[11px] font-mono text-slate-400">PRIORITY: {selectedTicket.priority}</span>
-                        </div>
-                        <h3 className="text-sm sm:text-lg font-bold text-slate-900 mt-0.5">
-                          {selectedTicket.subject}
-                        </h3>
-                        {selectedTicket.userPhone && (
-                          <div className="text-[11px] font-mono text-slate-500 mt-0.5">
-                            Contact: {selectedTicket.userPhone}
-                          </div>
-                        )}
-                      </div>
-                      <div className="text-xs font-mono text-slate-400 text-right shrink-0">
-                        <div className="text-emerald-600 font-bold flex items-center gap-1 justify-end text-[11px]">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                          Live Connected
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Chat Message Stream */}
-                    <div className="p-3.5 sm:p-6 space-y-3.5 overflow-y-auto max-h-[380px] sm:max-h-[420px] flex-1">
-                      {selectedTicket.messages?.map((msg) => {
-                        const isMe = msg.senderId === currentUser?.uid
-                        const isAdminMsg = msg.senderRole === "admin"
-                        return (
-                          <div
-                            key={msg.id}
-                            className={`flex flex-col ${isMe ? "items-end" : "items-start"}`}
-                          >
-                            <div className="flex items-center gap-2 mb-1 text-[10px] sm:text-[11px] font-mono text-slate-400">
-                              <span className="font-semibold text-slate-700">
-                                {isMe ? "You" : msg.senderName}
-                              </span>
-                              {isAdminMsg && (
-                                <span className="px-1.5 py-0.2 rounded bg-purple-100 text-[#7C3AED] font-bold text-[9px]">
-                                  DAVNS ENGINEERING
-                                </span>
-                              )}
-                              <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
-                            </div>
-                            <div
-                              className={`p-3 sm:p-3.5 rounded-2xl max-w-sm sm:max-w-md text-xs sm:text-sm font-light leading-relaxed ${
-                                isMe
-                                  ? "bg-slate-900 text-white rounded-tr-none shadow-sm"
-                                  : "bg-white text-slate-900 border border-slate-200 rounded-tl-none shadow-2xs"
-                              }`}
-                            >
-                              {msg.text}
-                            </div>
-                          </div>
-                        )
-                      })}
-                      <div ref={chatEndRef} />
-                    </div>
-
-                    {/* Chat Input */}
-                    {selectedTicket.status === "closed" ? (
-                      <div className="p-3.5 bg-slate-100 border-t border-slate-200 text-center text-xs text-slate-500 font-mono">
-                        This ticket has been marked as closed. Create a new ticket if you need further help.
-                      </div>
-                    ) : (
-                      <form onSubmit={handleSendMessage} className="p-3 sm:p-4 bg-white border-t border-slate-200 flex gap-2">
-                        <input
-                          type="text"
-                          placeholder="Type your reply to DAVNS support..."
-                          value={newMessageText}
-                          onChange={(e) => setNewMessageText(e.target.value)}
-                          className="flex-1 px-3.5 py-2.5 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-[#7C3AED] text-xs sm:text-sm outline-none transition-all"
-                        />
-                        <button
-                          type="submit"
-                          disabled={isSendingMessage || !newMessageText.trim()}
-                          className="px-4 sm:px-5 py-2.5 bg-slate-950 text-white hover:bg-slate-800 rounded-2xl font-mono text-xs font-bold transition-all disabled:opacity-50 cursor-pointer flex items-center gap-1.5 shrink-0"
-                        >
-                          <span>Send</span>
-                          <Send className="w-3.5 h-3.5" />
-                        </button>
-                      </form>
-                    )}
-                  </>
-                ) : (
-                  <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400">
-                    <MessageSquare className="w-10 h-10 text-slate-300 mb-2" />
-                    <h3 className="text-sm font-bold text-slate-700">No ticket selected</h3>
-                    <p className="text-xs text-slate-400 max-w-xs mt-1">
-                      Choose a ticket from the left panel or create a new inquiry.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-            </div>
+          <div className="w-full h-full flex-1 flex flex-col">
+            <SupportChatLayout
+              role="user"
+              tickets={tickets}
+              selectedTicketId={selectedTicketId}
+              onSelectTicket={setSelectedTicketId}
+              onSendMessage={handleSendMessage}
+              onEditMessage={handleEditMessage}
+              onDeleteMessage={handleDeleteMessage}
+              onOpenNewTicket={() => setIsNewTicketOpen(true)}
+              currentUserId={currentUser?.uid || ""}
+              currentUserName={userProfile?.displayName || currentUser?.email?.split("@")[0] || "User"}
+              currentUserPhoto={currentUser?.photoURL || userProfile?.photoURL}
+            />
           </div>
         )}
 
@@ -1058,10 +890,14 @@ export default function UserDashboard() {
                     onChange={(e) => setNewCategory(e.target.value)}
                     className="w-full px-3 py-2.5 rounded-2xl border border-slate-200 text-xs sm:text-sm outline-none focus:border-[#7C3AED]"
                   >
-                    <option value="AI Agents & Integration">AI Agents</option>
-                    <option value="Computer Vision QC">Computer Vision</option>
-                    <option value="Dealership AI (Clutch)">Dealership AI</option>
-                    <option value="General & Billing">General & Billing</option>
+                    <option value="AI Agents & Integration">AI Agents & Autonomous Workflows</option>
+                    <option value="Computer Vision QC">Computer Vision & Quality Inspection</option>
+                    <option value="Dealership AI (Clutch)">Clutch 1.0 AI Dealership Suite</option>
+                    <option value="Custom LLM Fine-Tuning">Custom LLM & Model Fine-Tuning</option>
+                    <option value="API Gateway & Webhooks">API Gateway & Real-time Webhooks</option>
+                    <option value="Enterprise Architecture">Enterprise Cloud & Security Architecture</option>
+                    <option value="Billing & Enterprise SLA">Billing, Licensing & Enterprise SLA</option>
+                    <option value="General Support">General Technical Support & Consulting</option>
                   </select>
                 </div>
 

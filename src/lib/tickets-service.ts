@@ -3,6 +3,7 @@ import {
   doc,
   addDoc,
   updateDoc,
+  deleteField,
   onSnapshot,
   query,
   where,
@@ -21,6 +22,7 @@ export interface TicketMessage {
   senderPhoto?: string | null
   text: string
   createdAt: any
+  editedAt?: any
 }
 
 export interface SupportTicket {
@@ -39,6 +41,12 @@ export interface SupportTicket {
   updatedAt: any
   lastMessage: string
   messages: TicketMessage[]
+  typing?: {
+    [userId: string]: {
+      name: string
+      updatedAt: number
+    }
+  }
 }
 
 // Create a new support ticket with mandatory user phone
@@ -122,6 +130,43 @@ export async function sendMessageInTicket(
   await updateDoc(ticketRef, updates)
 }
 
+// Edit an existing message in a ticket thread
+export async function editMessageInTicket(
+  ticketId: string,
+  messageId: string,
+  newText: string,
+  currentMessages: TicketMessage[]
+) {
+  const updatedMessages = currentMessages.map((msg) =>
+    msg.id === messageId
+      ? { ...msg, text: newText, editedAt: new Date().toISOString() }
+      : msg
+  )
+  const lastMsg = updatedMessages[updatedMessages.length - 1]?.text || ""
+  const ticketRef = doc(db, "tickets", ticketId)
+  await updateDoc(ticketRef, {
+    messages: updatedMessages,
+    lastMessage: lastMsg,
+    updatedAt: serverTimestamp(),
+  })
+}
+
+// Delete a message from a ticket thread
+export async function deleteMessageInTicket(
+  ticketId: string,
+  messageId: string,
+  currentMessages: TicketMessage[]
+) {
+  const updatedMessages = currentMessages.filter((msg) => msg.id !== messageId)
+  const lastMsg = updatedMessages[updatedMessages.length - 1]?.text || "Message deleted"
+  const ticketRef = doc(db, "tickets", ticketId)
+  await updateDoc(ticketRef, {
+    messages: updatedMessages,
+    lastMessage: lastMsg,
+    updatedAt: serverTimestamp(),
+  })
+}
+
 // Update ticket status
 export async function updateTicketStatus(ticketId: string, status: TicketStatus) {
   const ticketRef = doc(db, "tickets", ticketId)
@@ -129,6 +174,43 @@ export async function updateTicketStatus(ticketId: string, status: TicketStatus)
     status,
     updatedAt: serverTimestamp(),
   })
+}
+
+// Update real-time typing status
+export async function setTypingStatus(
+  ticketId: string,
+  userId: string,
+  userName: string,
+  isTyping: boolean
+) {
+  try {
+    const ticketRef = doc(db, "tickets", ticketId)
+    if (isTyping) {
+      await updateDoc(ticketRef, {
+        [`typing.${userId}`]: {
+          name: userName,
+          updatedAt: Date.now(),
+        },
+      })
+    } else {
+      await updateDoc(ticketRef, {
+        [`typing.${userId}`]: deleteField(),
+      })
+    }
+  } catch (err) {
+    // Silently catch concurrent update race conditions
+  }
+}
+
+// Helper to get reliable epoch milliseconds from Firestore timestamp, date or pending write
+function getTicketTime(t: SupportTicket): number {
+  const u = t.updatedAt || t.createdAt
+  if (!u) return Date.now()
+  if (typeof u.toMillis === "function") return u.toMillis()
+  if (typeof u.toDate === "function") return u.toDate().getTime()
+  if (typeof u === "number") return u
+  const parsed = new Date(u).getTime()
+  return isNaN(parsed) ? Date.now() : parsed
 }
 
 // Real-time listener for user's tickets
@@ -140,12 +222,8 @@ export function subscribeUserTickets(userId: string, callback: (tickets: Support
       ...doc.data(),
     })) as SupportTicket[]
     
-    // Sort by updatedAt descending
-    tickets.sort((a, b) => {
-      const timeA = a.updatedAt?.toMillis?.() || 0
-      const timeB = b.updatedAt?.toMillis?.() || 0
-      return timeB - timeA
-    })
+    // Sort by updatedAt descending with pending timestamp stability
+    tickets.sort((a, b) => getTicketTime(b) - getTicketTime(a))
     
     callback(tickets)
   }, (error) => {
@@ -162,11 +240,8 @@ export function subscribeAllTickets(callback: (tickets: SupportTicket[]) => void
       ...doc.data(),
     })) as SupportTicket[]
 
-    tickets.sort((a, b) => {
-      const timeA = a.updatedAt?.toMillis?.() || 0
-      const timeB = b.updatedAt?.toMillis?.() || 0
-      return timeB - timeA
-    })
+    // Sort by updatedAt descending with pending timestamp stability
+    tickets.sort((a, b) => getTicketTime(b) - getTicketTime(a))
 
     callback(tickets)
   }, (error) => {

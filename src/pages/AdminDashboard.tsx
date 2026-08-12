@@ -6,12 +6,16 @@ import {
   SupportTicket,
   subscribeAllTickets,
   sendMessageInTicket,
+  editMessageInTicket,
+  deleteMessageInTicket,
   updateTicketStatus,
   TicketStatus,
 } from "@/lib/tickets-service"
 import { fetchAdminVisitorStats, VisitorStats, VisitRecord } from "@/lib/analytics-tracker"
 import { collection, getDocs, doc, updateDoc, setDoc } from "firebase/firestore"
 import { db } from "@/lib/firebase"
+import { PhoneInputWithCountry } from "@/components/ui/phone-input-with-country"
+import { SupportChatLayout } from "@/components/chat/SupportChatLayout"
 import {
   ShieldCheck,
   Users,
@@ -75,11 +79,6 @@ export default function AdminDashboard() {
   // Tickets
   const [tickets, setTickets] = useState<SupportTicket[]>([])
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null)
-  const [ticketFilter, setTicketFilter] = useState<"all" | TicketStatus>("all")
-  const [adminReplyText, setAdminReplyText] = useState("")
-  const [isSendingReply, setIsSendingReply] = useState(false)
-
-  const chatEndRef = useRef<HTMLDivElement | null>(null)
 
   // Load telemetry stats
   const loadStats = async () => {
@@ -109,19 +108,17 @@ export default function AdminDashboard() {
   useEffect(() => {
     const unsubscribe = subscribeAllTickets((data) => {
       setTickets(data)
-      if (!selectedTicketId && data.length > 0) {
-        setSelectedTicketId(data[0].id)
-      }
+      setSelectedTicketId((prev) => {
+        if (prev && data.some((t) => t.id === prev)) {
+          return prev
+        }
+        return data.length > 0 ? data[0].id : null
+      })
     })
     return () => {
       if (unsubscribe) unsubscribe()
     }
   }, [])
-
-  // Auto scroll chat
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [tickets, selectedTicketId])
 
   const selectedTicket = tickets.find((t) => t.id === selectedTicketId)
 
@@ -153,41 +150,53 @@ export default function AdminDashboard() {
   }
 
   // Admin reply to ticket
-  const handleSendReply = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!adminReplyText.trim() || !selectedTicket || !currentUser) return
+  const handleSendMessage = async (ticketId: string, text: string) => {
+    if (!text.trim() || !currentUser) return
+    const ticket = tickets.find((t) => t.id === ticketId)
+    if (!ticket) return
 
-    setIsSendingReply(true)
     try {
       await sendMessageInTicket(
-        selectedTicket.id,
+        ticketId,
         {
           senderId: currentUser.uid,
           senderName: userProfile?.displayName || "DAVNS Operations",
           senderRole: "admin",
           senderPhoto: currentUser.photoURL || null,
-          text: adminReplyText.trim(),
+          text: text.trim(),
         },
-        selectedTicket.messages || [],
-        selectedTicket.status === "open" ? "in-progress" : undefined
+        ticket.messages || [],
+        ticket.status === "open" ? "in-progress" : undefined
       )
-      setAdminReplyText("")
       toast.success("Reply sent to user.")
     } catch (err) {
       toast.error("Failed to send reply.")
-    } finally {
-      setIsSendingReply(false)
+      throw err
     }
   }
 
+  // Admin edit message
+  const handleEditMessage = async (ticketId: string, messageId: string, newText: string) => {
+    const targetTicket = tickets.find((t) => t.id === ticketId)
+    if (!targetTicket) return
+    await editMessageInTicket(ticketId, messageId, newText, targetTicket.messages || [])
+  }
+
+  // Admin delete message
+  const handleDeleteMessage = async (ticketId: string, messageId: string) => {
+    const targetTicket = tickets.find((t) => t.id === ticketId)
+    if (!targetTicket) return
+    await deleteMessageInTicket(ticketId, messageId, targetTicket.messages || [])
+  }
+
   // Change ticket status
-  const handleChangeStatus = async (status: TicketStatus) => {
-    if (!selectedTicket) return
+  const handleUpdateStatus = async (ticketId: string, status: TicketStatus) => {
     try {
-      await updateTicketStatus(selectedTicket.id, status)
+      await updateTicketStatus(ticketId, status)
       toast.success(`Ticket marked as ${status.toUpperCase()}.`)
     } catch (err) {
       toast.error("Failed to update ticket status.")
+      throw err
     }
   }
 
@@ -195,11 +204,6 @@ export default function AdminDashboard() {
     await logout()
     navigate("/")
   }
-
-  const filteredTickets = tickets.filter((t) => {
-    if (ticketFilter === "all") return true
-    return t.status === ticketFilter
-  })
 
   const filteredUsers = allUsers.filter((u) => {
     const q = userSearch.toLowerCase()
@@ -432,7 +436,13 @@ export default function AdminDashboard() {
       </aside>
 
       {/* ── Main Content Area ── */}
-      <main className="flex-1 p-3.5 sm:p-6 lg:p-10 max-h-screen overflow-y-auto w-full">
+      <main
+        className={`flex-1 w-full max-w-full overflow-hidden transition-all ${
+          activeTab === "tickets"
+            ? "p-0 h-[calc(100dvh-56px)] md:h-screen overflow-hidden flex flex-col bg-white"
+            : "p-3.5 sm:p-6 lg:p-10 max-h-screen overflow-y-auto bg-slate-50"
+        }`}
+      >
         
         {/* TAB 1: ANALYTICS & VISITOR IP TELEMETRY */}
         {activeTab === "analytics" && (
@@ -581,213 +591,20 @@ export default function AdminDashboard() {
 
         {/* TAB 2: SUPPORT TICKETS DESK */}
         {activeTab === "tickets" && (
-          <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6 animate-fade-in-simple">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Support Ticket Management Desk
-              </h1>
-              <p className="text-xs sm:text-sm text-slate-500 font-light">
-                Respond to users in real-time and manage ticket resolution status
-              </p>
-            </div>
-
-            {/* Split layout */}
-            <div className="grid lg:grid-cols-12 gap-4 sm:gap-6 bg-white rounded-[28px] sm:rounded-[32px] border border-slate-200 shadow-sm overflow-hidden min-h-[580px]">
-              
-              {/* Left Column: All Tickets */}
-              <div className="lg:col-span-4 border-r border-slate-200 flex flex-col justify-between">
-                <div>
-                  <div className="p-3.5 border-b border-slate-100 flex items-center gap-1.5 overflow-x-auto text-[10px] sm:text-[11px] font-mono font-bold">
-                    {(["all", "open", "in-progress", "closed"] as const).map((filter) => (
-                      <button
-                        key={filter}
-                        onClick={() => setTicketFilter(filter)}
-                        className={`px-3 py-1.5 rounded-xl uppercase transition-colors shrink-0 cursor-pointer ${
-                          ticketFilter === filter
-                            ? "bg-slate-900 text-white font-bold"
-                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                        }`}
-                      >
-                        {filter}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="p-2.5 sm:p-3 space-y-2 max-h-[460px] overflow-y-auto">
-                    {filteredTickets.length === 0 ? (
-                      <div className="text-center py-10 text-xs text-slate-400">
-                        No support tickets in this view.
-                      </div>
-                    ) : (
-                      filteredTickets.map((t) => {
-                        const isSelected = selectedTicketId === t.id
-                        return (
-                          <div
-                            key={t.id}
-                            onClick={() => setSelectedTicketId(t.id)}
-                            className={`p-3 rounded-2xl border transition-all cursor-pointer space-y-1.5 ${
-                              isSelected
-                                ? "bg-purple-50/90 border-[#7C3AED] shadow-2xs"
-                                : "bg-white border-slate-200/80 hover:border-slate-300 hover:bg-slate-50"
-                            }`}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase ${
-                                t.status === "open"
-                                  ? "bg-amber-100 text-amber-800"
-                                  : t.status === "in-progress"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : "bg-emerald-100 text-emerald-800"
-                              }`}>
-                                {t.status}
-                              </span>
-                              <span className="text-[10px] font-mono text-slate-400">{t.userName}</span>
-                            </div>
-                            <div className="text-xs font-bold text-slate-900 truncate">{t.subject}</div>
-                            <div className="text-[11px] text-slate-500 truncate font-light">{t.lastMessage}</div>
-                            {t.userPhone && (
-                              <div className="text-[10px] font-mono text-slate-400 flex items-center gap-1">
-                                <Phone className="w-3 h-3 text-[#7C3AED]" />
-                                <span>{t.userPhone}</span>
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })
-                    )}
-                  </div>
-                </div>
-
-                <div className="p-3.5 border-t border-slate-100 text-center text-[10px] sm:text-[11px] font-mono text-slate-400">
-                  Total tickets in desk: {tickets.length}
-                </div>
-              </div>
-
-              {/* Right Column: Real-time Ticket Thread & Actions */}
-              <div className="lg:col-span-8 flex flex-col justify-between h-full bg-slate-50/50">
-                {selectedTicket ? (
-                  <>
-                    {/* Header with Status Selector */}
-                    <div className="p-3.5 sm:p-5 bg-white border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono text-slate-600 truncate font-bold">
-                            {selectedTicket.userName} ({selectedTicket.userEmail})
-                          </span>
-                          <span className="text-xs font-mono text-[#7C3AED]">
-                            [{selectedTicket.category}]
-                          </span>
-                        </div>
-                        <h3 className="text-sm sm:text-lg font-bold text-slate-900 mt-0.5">
-                          {selectedTicket.subject}
-                        </h3>
-                        {selectedTicket.userPhone && (
-                          <div className="text-[11px] font-mono text-slate-500 mt-0.5 flex items-center gap-1.5">
-                            <Phone className="w-3 h-3 text-emerald-600" />
-                            <span>Contact: <strong>{selectedTicket.userPhone}</strong></span>
-                            {selectedTicket.altPhone && (
-                              <span className="text-slate-400">• Alt: {selectedTicket.altPhone}</span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Status Action Buttons */}
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <button
-                          onClick={() => handleChangeStatus("open")}
-                          className={`px-2.5 py-1 rounded-xl text-[10px] font-mono font-bold uppercase transition-all cursor-pointer ${
-                            selectedTicket.status === "open"
-                              ? "bg-amber-500 text-slate-950 shadow-xs"
-                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                          }`}
-                        >
-                          Open
-                        </button>
-                        <button
-                          onClick={() => handleChangeStatus("in-progress")}
-                          className={`px-2.5 py-1 rounded-xl text-[10px] font-mono font-bold uppercase transition-all cursor-pointer ${
-                            selectedTicket.status === "in-progress"
-                              ? "bg-blue-600 text-white shadow-xs"
-                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                          }`}
-                        >
-                          In Progress
-                        </button>
-                        <button
-                          onClick={() => handleChangeStatus("closed")}
-                          className={`px-2.5 py-1 rounded-xl text-[10px] font-mono font-bold uppercase transition-all cursor-pointer ${
-                            selectedTicket.status === "closed"
-                              ? "bg-emerald-600 text-white shadow-xs"
-                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                          }`}
-                        >
-                          Closed
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Messages stream */}
-                    <div className="p-3.5 sm:p-6 space-y-3.5 overflow-y-auto max-h-[380px] sm:max-h-[420px] flex-1">
-                      {selectedTicket.messages?.map((msg) => {
-                        const isAdminMsg = msg.senderRole === "admin"
-                        return (
-                          <div
-                            key={msg.id}
-                            className={`flex flex-col ${isAdminMsg ? "items-end" : "items-start"}`}
-                          >
-                            <div className="flex items-center gap-2 mb-1 text-[10px] sm:text-[11px] font-mono text-slate-400">
-                              <span className="font-semibold text-slate-700">
-                                {isAdminMsg ? "Admin Response" : msg.senderName}
-                              </span>
-                              <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
-                            </div>
-                            <div
-                              className={`p-3 sm:p-3.5 rounded-2xl max-w-sm sm:max-w-md text-xs sm:text-sm font-light leading-relaxed ${
-                                isAdminMsg
-                                  ? "bg-[#7C3AED] text-white rounded-tr-none shadow-md"
-                                  : "bg-white text-slate-900 border border-slate-200 rounded-tl-none shadow-2xs"
-                              }`}
-                            >
-                              {msg.text}
-                            </div>
-                          </div>
-                        )
-                      })}
-                      <div ref={chatEndRef} />
-                    </div>
-
-                    {/* Admin Reply Input */}
-                    <form onSubmit={handleSendReply} className="p-3 sm:p-4 bg-white border-t border-slate-200 flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Type official admin reply..."
-                        value={adminReplyText}
-                        onChange={(e) => setAdminReplyText(e.target.value)}
-                        className="flex-1 px-3.5 py-2.5 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-[#7C3AED] text-xs sm:text-sm text-slate-900 outline-none transition-all"
-                      />
-                      <button
-                        type="submit"
-                        disabled={isSendingReply || !adminReplyText.trim()}
-                        className="px-4 sm:px-5 py-2.5 bg-slate-950 text-white hover:bg-slate-800 rounded-2xl font-mono text-xs font-bold transition-all disabled:opacity-50 cursor-pointer flex items-center gap-1.5 shrink-0"
-                      >
-                        <span>Reply</span>
-                        <Send className="w-3.5 h-3.5" />
-                      </button>
-                    </form>
-                  </>
-                ) : (
-                  <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400">
-                    <MessageSquare className="w-10 h-10 text-slate-300 mb-2" />
-                    <h3 className="text-sm font-bold text-slate-700">Select a ticket</h3>
-                    <p className="text-xs text-slate-400 max-w-xs mt-1">
-                      Pick a support ticket from the left panel to review and reply to the user.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-            </div>
+          <div className="w-full h-full flex-1 flex flex-col">
+            <SupportChatLayout
+              role="admin"
+              tickets={tickets}
+              selectedTicketId={selectedTicketId}
+              onSelectTicket={setSelectedTicketId}
+              onSendMessage={handleSendMessage}
+              onEditMessage={handleEditMessage}
+              onDeleteMessage={handleDeleteMessage}
+              onUpdateStatus={handleUpdateStatus}
+              currentUserId={currentUser?.uid || ""}
+              currentUserName={userProfile?.displayName || "DAVNS Operations"}
+              currentUserPhoto={currentUser?.photoURL || userProfile?.photoURL}
+            />
           </div>
         )}
 

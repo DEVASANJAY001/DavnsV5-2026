@@ -302,4 +302,13 @@
   .section-blend-bottom {
     mask-image: linear-gradient(to top, transparent 0%, black 8%);
   }
+
+  /* No scrollbar utility */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
