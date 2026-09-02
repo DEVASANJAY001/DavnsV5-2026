@@ -187,6 +187,32 @@ export async function deleteParticipant(id: string, collegeId: string): Promise<
   await recalculateCollegeScore(collegeId)
 }
 
+/**
+ * Deletes ALL participants from the collection in batches,
+ * then resets every college's totalPoints and participantCount to 0.
+ */
+export async function deleteAllParticipants(): Promise<number> {
+  const pSnap = await getDocs(collection(db, PARTICIPANTS_COLLECTION))
+  if (pSnap.empty) return 0
+
+  const BATCH_SIZE = 400
+  for (let i = 0; i < pSnap.docs.length; i += BATCH_SIZE) {
+    const batch = writeBatch(db)
+    pSnap.docs.slice(i, i + BATCH_SIZE).forEach((d) => batch.delete(d.ref))
+    await batch.commit()
+  }
+
+  // Reset all college aggregate scores to 0
+  const cSnap = await getDocs(collection(db, COLLEGES_COLLECTION))
+  if (!cSnap.empty) {
+    const batch = writeBatch(db)
+    cSnap.docs.forEach((d) => batch.update(d.ref, { totalPoints: 0, participantCount: 0 }))
+    await batch.commit()
+  }
+
+  return pSnap.docs.length
+}
+
 export async function toggleParticipantVisibility(id: string, isHidden: boolean): Promise<void> {
   await updateDoc(doc(db, PARTICIPANTS_COLLECTION, id), {
     isHidden,

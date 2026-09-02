@@ -18,6 +18,7 @@ import {
   addParticipant,
   updateParticipant,
   deleteParticipant,
+  deleteAllParticipants,
   addCollege,
   updateCollege,
   deleteCollege,
@@ -144,9 +145,12 @@ export default function AdminDashboard() {
   const [isSavingCollege, setIsSavingCollege] = useState(false)
   const [cForm, setCForm] = useState({ name: "", city: "", state: "", logoUrl: "", websiteUrl: "", isHidden: false })
   const [isDeletingScoreboardId, setIsDeletingScoreboardId] = useState<string | null>(null)
+  const [isDeletingAll, setIsDeletingAll] = useState(false)
+  const [deleteAllConfirm, setDeleteAllConfirm] = useState(false)
 
   // CSV Import Modal state
   const [isCsvImportModalOpen, setIsCsvImportModalOpen] = useState(false)
+  const [csvModalParticipantsOnly, setCsvModalParticipantsOnly] = useState(false)
 
   // ── Public Display Mode Config ──
   const [perspectiveConfig, setPerspectiveConfig] = useState<PerspectiveConfig>({
@@ -266,6 +270,7 @@ export default function AdminDashboard() {
 
   const openCsvModalForDay = (day: 1 | 2 | 3 | 4 | 5 | 6) => {
     setCsvModalTargetDay(day)
+    setCsvModalParticipantsOnly(false)
     setIsCsvImportModalOpen(true)
   }
 
@@ -364,6 +369,24 @@ export default function AdminDashboard() {
       toast.error("Failed to delete participant.")
     } finally {
       setIsDeletingScoreboardId(null)
+    }
+  }
+
+  const handleDeleteAllParticipants = async () => {
+    if (!deleteAllConfirm) {
+      // First click: arm the confirmation
+      setDeleteAllConfirm(true)
+      return
+    }
+    setIsDeletingAll(true)
+    setDeleteAllConfirm(false)
+    try {
+      const count = await deleteAllParticipants()
+      toast.success(`All ${count} participants have been permanently deleted.`)
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to delete all participants.")
+    } finally {
+      setIsDeletingAll(false)
     }
   }
 
@@ -1404,7 +1427,10 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                     <button
-                      onClick={() => setIsCsvImportModalOpen(true)}
+                      onClick={() => {
+                        setCsvModalParticipantsOnly(true)
+                        setIsCsvImportModalOpen(true)
+                      }}
                       className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-500 hover:bg-yellow-400 text-slate-950 font-mono text-xs font-black cursor-pointer transition-all shadow-sm"
                     >
                       <FileSpreadsheet className="w-4 h-4" />
@@ -1417,6 +1443,26 @@ export default function AdminDashboard() {
                       <Plus className="w-3.5 h-3.5" />
                       Add Participant
                     </button>
+                    {participants.length > 0 && (
+                      <button
+                        onClick={handleDeleteAllParticipants}
+                        disabled={isDeletingAll}
+                        onMouseLeave={() => setDeleteAllConfirm(false)}
+                        className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl font-mono text-xs font-bold cursor-pointer transition-all shadow-sm border ${
+                          deleteAllConfirm
+                            ? "bg-red-600 hover:bg-red-700 text-white border-red-500 animate-pulse"
+                            : "bg-white hover:bg-red-50 text-red-600 border-red-200 hover:border-red-400"
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        title={deleteAllConfirm ? "Click again to permanently delete ALL participants" : "Delete all participants"}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        {isDeletingAll
+                          ? "Deleting..."
+                          : deleteAllConfirm
+                          ? `Confirm Delete All ${participants.length}?`
+                          : "Delete All"}
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -2279,6 +2325,7 @@ export default function AdminDashboard() {
         isOpen={isCsvImportModalOpen}
         onClose={() => setIsCsvImportModalOpen(false)}
         initialTargetDay={csvModalTargetDay}
+        participantsOnly={csvModalParticipantsOnly}
         onSuccess={() => {
           setIsCsvImportModalOpen(false)
           toast.success("CSV Import completed successfully!")
