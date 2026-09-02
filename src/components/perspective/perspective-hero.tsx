@@ -74,31 +74,28 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
 
       <div className="max-w-6xl mx-auto w-full relative z-10 text-center">
         
-        {/* Live Event Status Banner Pill */}
+        {/* Live Event Status Banner Pill (Compact & Closed Status) */}
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#EDE9FE] border border-[#7C3AED]/30 text-[#7C3AED] text-xs font-semibold tracking-wide shadow-xs mb-6 sm:mb-8"
+          className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#EDE9FE]/90 border border-[#7C3AED]/25 text-[#7C3AED] text-[10px] sm:text-xs font-semibold tracking-wide shadow-xs mb-5 sm:mb-7 max-w-[96vw]"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C3AED] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7C3AED]" />
+          <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#7C3AED] shrink-0" />
+          <span className="font-mono uppercase font-bold text-[9px] sm:text-[10.5px] tracking-wider">
+            REGISTRATIONS CLOSED
           </span>
-          <span className="font-mono uppercase font-bold text-[10px] sm:text-[11px] tracking-wider">
-            LIVE CHALLENGE • REGISTRATION OPEN
-          </span>
-          <span className="text-slate-400 hidden xs:inline">|</span>
-          <span className="font-semibold text-slate-800 hidden xs:flex items-center gap-1 text-[11px]">
-            <Calendar className="w-3.5 h-3.5 text-[#7C3AED]" />
+          <span className="text-slate-300 hidden xs:inline">•</span>
+          <span className="font-semibold text-slate-700 hidden xs:flex items-center gap-1 text-[10px] sm:text-[11px]">
+            <Calendar className="w-3 h-3 text-[#7C3AED]" />
             SEPTEMBER 1–6, 2026
           </span>
-          <span className="text-slate-400 hidden sm:inline">|</span>
+          <span className="text-slate-300 hidden sm:inline">•</span>
           <Link
             to="/perspective/scoreboard"
-            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#7C3AED] text-white hover:bg-purple-700 text-[10px] font-mono font-black uppercase tracking-wider transition-all hover:scale-105 shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-full bg-[#7C3AED] text-white hover:bg-purple-700 text-[9px] sm:text-[10px] font-mono font-black uppercase tracking-wider transition-all hover:scale-105 shadow-2xs cursor-pointer"
           >
-            <Trophy className="w-3 h-3 text-[#FACC15]" />
+            <Trophy className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#FACC15]" />
             <span>Score Card</span>
           </Link>
         </motion.div>
@@ -182,7 +179,17 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
           transition={{ duration: 0.5, delay: 0.25 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 mb-12 sm:mb-14 px-4"
         >
-          {/* Direct Unstop Registration Link */}
+          {/* Score Card Primary Button */}
+          <Link to="/perspective/scoreboard" className="w-full sm:w-auto">
+            <button
+              className="w-full sm:w-auto bg-[#FACC15] text-slate-950 hover:bg-yellow-400 rounded-full px-8 sm:px-10 py-4 sm:py-5 text-sm sm:text-base font-extrabold shadow-yellow transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2"
+            >
+              <Trophy className="w-4 h-4 text-slate-950" />
+              <span>VIEW OFFICIAL SCORE CARD</span>
+            </button>
+          </Link>
+
+          {/* Unstop Registration Closed Link */}
           <a
             href={UNSTOP_REGISTER_URL}
             target="_blank"
@@ -190,31 +197,21 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
             className="w-full sm:w-auto"
           >
             <button
-              className="w-full sm:w-auto bg-[#FACC15] text-slate-950 hover:bg-yellow-400 rounded-full px-8 sm:px-10 py-4 sm:py-5 text-sm sm:text-base font-extrabold shadow-yellow transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto rounded-full px-7 py-4 sm:py-5 text-xs sm:text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition-all cursor-pointer flex items-center justify-center gap-2 group"
             >
-              <span>REGISTER ON UNSTOP</span>
-              <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <span>Registrations Closed (Unstop)</span>
+              <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </a>
 
           <a href="#schedule" className="w-full sm:w-auto">
             <button
-              className="w-full sm:w-auto rounded-full px-8 py-4 sm:py-5 text-sm sm:text-base font-semibold border border-slate-300 hover:bg-slate-50 text-slate-800 transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full sm:w-auto rounded-full px-7 py-4 sm:py-5 text-xs sm:text-sm font-semibold border border-slate-300 hover:bg-slate-50 text-slate-800 transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               <span>Explore 6-Day Schedule</span>
               <ChevronRight className="w-4 h-4 text-slate-500" />
             </button>
           </a>
-
-          {/* Score Card Button */}
-          <Link to="/perspective/scoreboard" className="w-full sm:w-auto">
-            <button
-              className="w-full sm:w-auto rounded-full px-8 py-4 sm:py-5 text-sm sm:text-base font-semibold bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm"
-            >
-              <Trophy className="w-4 h-4 text-amber-400" />
-              <span>View Score Card</span>
-            </button>
-          </Link>
         </motion.div>
 
         {/* Live Countdown Grid */}

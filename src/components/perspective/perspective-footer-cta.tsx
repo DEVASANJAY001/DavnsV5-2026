@@ -67,29 +67,30 @@ export function PerspectiveFooterCTA({ onRegisterClick }: FooterCTAProps) {
           viewport={{ once: true }}
           className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
+          <Link to="/perspective/scoreboard" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto bg-[#FACC15] text-slate-950 hover:bg-yellow-400 rounded-full px-10 py-7 text-base font-extrabold shadow-yellow transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2 group"
+            >
+              <Trophy className="w-5 h-5 text-slate-950" />
+              <span>VIEW OFFICIAL SCORE CARD</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+
           <a
             href={UNSTOP_REGISTER_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto"
           >
-            <Button
-              size="lg"
-              className="w-full sm:w-auto bg-[#FACC15] text-slate-950 hover:bg-yellow-400 rounded-full px-10 py-7 text-base font-extrabold shadow-yellow transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center gap-2 group"
-            >
-              <span>REGISTER NOW ON UNSTOP — FREE ENTRY</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </a>
-
-          <Link to="/" className="w-full sm:w-auto">
             <button
               className="w-full sm:w-auto rounded-full px-8 py-5 text-sm sm:text-base font-bold bg-white/10 text-white hover:bg-white/20 border border-white/25 transition-all hover:scale-105 active:scale-95 shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Explore DAVNS Industries</span>
+              <span>Registrations Closed (Unstop)</span>
               <ArrowRight className="w-4 h-4 text-slate-300" />
             </button>
-          </Link>
+          </a>
         </motion.div>
 
         {/* Event Quick Bar */}

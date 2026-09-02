@@ -77,13 +77,13 @@ export function HeroSection() {
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-center mb-8"
+          className="flex justify-center mb-6 sm:mb-8 px-2"
         >
-          <div className="inline-flex flex-wrap items-center justify-center p-1.5 rounded-full sm:rounded-full bg-slate-100/95 border border-slate-200 shadow-sm hover:border-purple-300 transition-all backdrop-blur-md gap-1.5">
+          <div className="inline-flex flex-wrap items-center justify-center p-1 sm:p-1.5 rounded-full bg-slate-100/95 border border-slate-200 shadow-sm hover:border-purple-300 transition-all backdrop-blur-md gap-1 sm:gap-1.5 max-w-full">
             {/* Left Tag */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold text-slate-800">
-              <span className="w-2 h-2 rounded-full bg-[#7C3AED] animate-pulse shrink-0" />
-              <span className="font-mono uppercase font-bold text-[10.5px] tracking-wide text-[#7C3AED]">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-0.5 sm:py-1 font-semibold text-slate-800">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#7C3AED] animate-pulse shrink-0" />
+              <span className="font-mono uppercase font-bold text-[9px] sm:text-[10.5px] tracking-wide text-[#7C3AED]">
                 PERSPECTIVE 2026
               </span>
               <span className="text-slate-300 hidden sm:inline">•</span>
@@ -95,18 +95,18 @@ export function HeroSection() {
             {/* Connected View Details Button */}
             <Link
               to="/perspective"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900 text-white hover:bg-[#7C3AED] text-[11px] font-mono font-bold tracking-wider uppercase transition-all duration-200 hover:scale-105 active:scale-95 shadow-2xs group cursor-pointer"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-slate-900 text-white hover:bg-[#7C3AED] text-[9.5px] sm:text-[11px] font-mono font-bold tracking-wider uppercase transition-all duration-200 hover:scale-105 active:scale-95 shadow-2xs group cursor-pointer"
             >
               <span>View Details</span>
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             {/* Connected Score Card Button */}
             <Link
               to="/perspective/scoreboard"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FACC15] text-slate-950 hover:bg-yellow-400 text-[11px] font-mono font-black tracking-wider uppercase transition-all duration-200 hover:scale-105 active:scale-95 shadow-2xs group cursor-pointer"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#FACC15] text-slate-950 hover:bg-yellow-400 text-[9.5px] sm:text-[11px] font-mono font-black tracking-wider uppercase transition-all duration-200 hover:scale-105 active:scale-95 shadow-2xs group cursor-pointer"
             >
-              <Trophy className="w-3.5 h-3.5 text-slate-950" />
+              <Trophy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-950" />
               <span>Score Card</span>
             </Link>
           </div>

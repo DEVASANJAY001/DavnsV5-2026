@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { PerspectiveHero } from "@/components/perspective/perspective-hero"
@@ -93,19 +94,17 @@ export default function PerspectivePage() {
 
         </div>
 
-        {/* Floating Quick Registration Action Pill (Visible when scrolled) */}
+        {/* Floating Quick Action Pill (Visible when scrolled) */}
         {showFloatingButton && (
           <div className="fixed bottom-6 right-6 z-40 animate-slide-up">
-            <a
-              href="https://unstop.com/o/B9nhYTp?lb=usehckjk&utm_medium=Share&utm_source=quizzes&utm_campaign=Davnsnlo59542"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/perspective/scoreboard"
               className="group flex items-center gap-2.5 bg-[#FACC15] text-slate-950 px-5 py-3.5 rounded-full font-mono text-xs font-black shadow-2xl shadow-yellow-500/30 border border-yellow-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               <Trophy className="w-4 h-4 text-slate-950" />
-              <span>REGISTER ON UNSTOP</span>
+              <span>VIEW SCORE CARD</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-            </a>
+            </Link>
           </div>
         )}
 

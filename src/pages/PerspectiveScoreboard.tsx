@@ -82,36 +82,43 @@ export default function PerspectiveScoreboardPage() {
             <PerspectiveScoreboardHero
               participants={visibleParticipants}
               colleges={visibleColleges}
-              isLive={isLive}
             />
 
             {/* 2. College Rankings */}
-            <PerspectiveCollegeLeaderboard colleges={visibleColleges} />
+            <PerspectiveCollegeLeaderboard
+              colleges={visibleColleges}
+              onViewStudents={() => {
+                document.getElementById("students-leaderboard")?.scrollIntoView({ behavior: "smooth" })
+              }}
+            />
 
             {/* 3. Student Individual Rankings */}
             <PerspectiveStudentLeaderboard
               participants={visibleParticipants}
               colleges={visibleColleges}
+              onViewInstitutions={() => {
+                document.getElementById("colleges-leaderboard")?.scrollIntoView({ behavior: "smooth" })
+              }}
             />
 
             {/* 4. Score Methodology */}
             <PerspectiveScoreMethodology />
 
-            {/* 5. Register CTA strip */}
-            <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
-              <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-5">
+            {/* 5. Closing info strip */}
+            <section className="py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 text-slate-900 border-t border-slate-200">
+              <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
                 <div>
                   <div className="text-lg font-extrabold text-slate-900">
-                    Not yet registered?
+                    DAVNS Perspective 2026 Archive
                   </div>
                   <div className="text-sm text-slate-500 font-light">
-                    Register free on Unstop before the challenge begins on September 1, 2026.
+                    Official challenge assessment completed. Registrations are closed.
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Link
                     to="/perspective"
-                    className="px-5 py-2.5 rounded-full border border-slate-200 text-slate-700 text-xs font-mono font-semibold hover:bg-slate-50 transition-all"
+                    className="px-5 py-2.5 rounded-full border border-slate-300 text-slate-700 text-xs font-mono font-semibold hover:bg-white transition-all shadow-2xs"
                   >
                     View Challenge Details
                   </Link>
@@ -119,10 +126,10 @@ export default function PerspectiveScoreboardPage() {
                     href="https://unstop.com/o/B9nhYTp?lb=usehckjk&utm_medium=Share&utm_source=quizzes&utm_campaign=Davnsnlo59542"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#FACC15] text-slate-950 hover:bg-yellow-400 text-xs font-mono font-extrabold tracking-wider uppercase transition-all hover:scale-105 shadow-sm"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-2xs"
                   >
-                    Register on Unstop
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    Unstop Archive
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
                   </a>
                 </div>
               </div>
@@ -147,10 +154,10 @@ export default function PerspectiveScoreboardPage() {
               <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-5">
                 <div>
                   <div className="text-lg font-extrabold text-slate-900">
-                    Want your college represented?
+                    DAVNS Perspective 2026
                   </div>
                   <div className="text-sm text-slate-500 font-light">
-                    Register individually on Unstop. Your college will be added to the official leaderboard automatically.
+                    Official challenge assessment completed. Registrations are closed.
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -164,9 +171,9 @@ export default function PerspectiveScoreboardPage() {
                     href="https://unstop.com/o/B9nhYTp?lb=usehckjk&utm_medium=Share&utm_source=quizzes&utm_campaign=Davnsnlo59542"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#FACC15] text-slate-950 hover:bg-yellow-400 text-xs font-mono font-extrabold tracking-wider uppercase transition-all hover:scale-105 shadow-sm"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-mono font-bold tracking-wider uppercase transition-all"
                   >
-                    Register on Unstop
+                    Unstop Page
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>

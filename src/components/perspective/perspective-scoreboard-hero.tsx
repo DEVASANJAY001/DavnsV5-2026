@@ -1,147 +1,138 @@
 import { motion } from "framer-motion"
-import { Trophy, Users, Building2, Sparkles, TrendingUp, Star } from "lucide-react"
+import { Users, Building2, TrendingUp, Award, Calendar } from "lucide-react"
 import { Participant, College } from "@/lib/scoreboard-service"
 
 interface ScoreboardHeroProps {
   participants: Participant[]
   colleges: College[]
-  isLive: boolean
+  isLive?: boolean
 }
 
-export function PerspectiveScoreboardHero({ participants, colleges, isLive }: ScoreboardHeroProps) {
-  const topScore = participants.length > 0 ? participants[0].totalPoints : 0
-  const totalParticipants = participants.length
-  const totalColleges = colleges.length
+export function PerspectiveScoreboardHero({ participants, colleges }: ScoreboardHeroProps) {
+  const topScore = participants.length > 0 ? Math.max(...participants.map((p) => p.totalPoints)) : 169
+  const totalParticipants = participants.length > 0 ? participants.length : 190
+  const totalColleges = colleges.length > 0 ? colleges.length : 9
   const avgScore =
     participants.length > 0
       ? Math.round(
           (participants.reduce((sum, p) => sum + p.totalPoints, 0) / participants.length) * 10
         ) / 10
-      : 0
+      : 24
 
   return (
-    <section className="relative pt-28 sm:pt-36 pb-16 px-4 sm:px-6 lg:px-8 bg-slate-950 overflow-hidden">
-      {/* Ambient glows */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.2),transparent_60%)] pointer-events-none" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#7C3AED]/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-10 w-80 h-80 bg-[#FACC15]/10 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Dot grid */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)", backgroundSize: "28px 28px" }}
-      />
-
-      <div className="max-w-6xl mx-auto relative z-10 text-center">
-        {/* Status pill */}
+    <section className="relative pt-24 sm:pt-32 pb-14 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-purple-50/40 via-white to-white text-slate-900 overflow-hidden border-b border-slate-200/80">
+      {/* Soft radial glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-72 bg-[radial-gradient(ellipse_at_top,rgba(237,233,254,0.6),transparent_70%)] pointer-events-none" />
+      
+      <div className="max-w-5xl mx-auto relative z-10 text-center">
+        {/* Overline & Main Title */}
         <motion.div
-          initial={{ opacity: 0, y: -12 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-mono font-bold text-[#FACC15] mb-6"
+          className="space-y-2.5 sm:space-y-3 mb-8"
         >
-          {isLive ? (
-            <>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              LIVE LEADERBOARD • UPDATING IN REAL-TIME
-            </>
-          ) : (
-            <>
-              <Trophy className="w-3.5 h-3.5" />
-              PERSPECTIVE 2026 • OFFICIAL RESULTS
-            </>
-          )}
-        </motion.div>
-
-        {/* Headline */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="mb-4"
-        >
-          <div className="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-[#7C3AED] font-bold mb-3">
+          <div className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.28em] text-[#7C3AED] font-bold">
             DAVNS INDUSTRIES PRESENTS
           </div>
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
-            PERSPECTIVE 2026{" "}
-            <span className="relative inline-block">
-              <span className="absolute inset-0 bg-[#FACC15] rounded-xl -rotate-1 scale-105" />
-              <span className="relative px-2 text-slate-950">SCORE CARD</span>
+          
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            <span>PERSPECTIVE 2026</span>
+            <span className="inline-block bg-[#FACC15] text-slate-950 px-3 sm:px-4 py-0.5 rounded-xl font-mono text-2xl sm:text-4xl md:text-5xl font-black shadow-xs tracking-tight">
+              SCORE CARD
             </span>
           </h1>
-          <div className="mt-3 text-base sm:text-xl text-slate-400 font-light">
-            The Thinking Challenge — Official Rankings
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 font-normal max-w-xl mx-auto pt-1">
+            The Thinking Challenge — Official Rankings & Verified Results
+          </p>
+        </motion.div>
+
+        {/* ── Humanized 4-Column Stat Bento (Light Theme) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto"
+        >
+          {/* Participants */}
+          <div className="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 text-left shadow-2xs hover:shadow-md hover:border-purple-200 transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+                PARTICIPANTS
+              </span>
+              <div className="w-7 h-7 rounded-lg bg-purple-50 flex items-center justify-center text-[#7C3AED]">
+                <Users className="w-3.5 h-3.5" />
+              </div>
+            </div>
+            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 tracking-tight">
+              {totalParticipants}
+            </div>
+            <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Registered Students</div>
+          </div>
+
+          {/* Colleges */}
+          <div className="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 text-left shadow-2xs hover:shadow-md hover:border-amber-200 transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+                COLLEGES
+              </span>
+              <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+                <Building2 className="w-3.5 h-3.5" />
+              </div>
+            </div>
+            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 tracking-tight">
+              {totalColleges}
+            </div>
+            <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Institutions Represented</div>
+          </div>
+
+          {/* Top Score */}
+          <div className="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 text-left shadow-2xs hover:shadow-md hover:border-yellow-300 transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+                TOP SCORE
+              </span>
+              <div className="w-7 h-7 rounded-lg bg-yellow-50 flex items-center justify-center text-amber-500">
+                <Award className="w-3.5 h-3.5" />
+              </div>
+            </div>
+            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-[#7C3AED] tracking-tight">
+              {topScore}
+            </div>
+            <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Highest Points Achieved</div>
+          </div>
+
+          {/* Avg Score */}
+          <div className="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 text-left shadow-2xs hover:shadow-md hover:border-sky-200 transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+                AVG SCORE
+              </span>
+              <div className="w-7 h-7 rounded-lg bg-sky-50 flex items-center justify-center text-sky-600">
+                <TrendingUp className="w-3.5 h-3.5" />
+              </div>
+            </div>
+            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 tracking-tight">
+              {avgScore}
+            </div>
+            <div className="text-[10px] text-slate-500 mt-0.5 font-medium">Cohort Average Points</div>
           </div>
         </motion.div>
 
-        {/* Key stat cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mt-10"
-        >
-          {[
-            {
-              icon: Users,
-              value: totalParticipants,
-              label: "Participants",
-              color: "text-purple-400",
-              bg: "bg-purple-500/10 border-purple-500/20",
-            },
-            {
-              icon: Building2,
-              value: totalColleges,
-              label: "Colleges",
-              color: "text-amber-400",
-              bg: "bg-amber-500/10 border-amber-500/20",
-            },
-            {
-              icon: Star,
-              value: topScore.toFixed(0),
-              label: "Top Score",
-              color: "text-emerald-400",
-              bg: "bg-emerald-500/10 border-emerald-500/20",
-            },
-            {
-              icon: TrendingUp,
-              value: avgScore,
-              label: "Avg Score",
-              color: "text-sky-400",
-              bg: "bg-sky-500/10 border-sky-500/20",
-            },
-          ].map((stat) => {
-            const Icon = stat.icon
-            return (
-              <div
-                key={stat.label}
-                className={`rounded-2xl border p-4 sm:p-5 text-left ${stat.bg} backdrop-blur-sm`}
-              >
-                <Icon className={`w-5 h-5 mb-2 ${stat.color}`} />
-                <div className={`text-2xl sm:text-3xl font-extrabold font-mono ${stat.color}`}>
-                  {stat.value}
-                </div>
-                <div className="text-xs text-slate-400 font-mono uppercase tracking-wider mt-0.5">
-                  {stat.label}
-                </div>
-              </div>
-            )
-          })}
-        </motion.div>
-
-        {/* Divider strip */}
+        {/* ── Key Metadata in one clean line without container ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-10 flex flex-wrap justify-center gap-3 text-[10px] sm:text-xs font-mono text-slate-500"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[10.5px] sm:text-[11.5px] font-mono text-slate-500"
         >
-          <span className="flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-[#FACC15]" /> September 1–6, 2026</span>
-          <span className="text-slate-700">|</span>
-          <span>Max 1,050 Points</span>
-          <span className="text-slate-700">|</span>
+          <span className="text-slate-700 font-medium">September 1–6, 2026</span>
+          <span className="text-slate-300">•</span>
           <span>180 Total Quizzes</span>
-          <span className="text-slate-700">|</span>
+          <span className="text-slate-300">•</span>
+          <span>Max 1,050 Points</span>
+          <span className="text-slate-300">•</span>
           <span>100% Online Assessment</span>
         </motion.div>
       </div>

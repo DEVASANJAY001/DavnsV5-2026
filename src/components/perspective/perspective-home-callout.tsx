@@ -22,9 +22,9 @@ export function PerspectiveHomeCallout() {
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-5 sm:space-y-6">
               <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#7C3AED]/30 border border-[#7C3AED]/50 text-[#FACC15] text-xs font-mono font-bold uppercase tracking-wider">
-                  <span className="w-2 h-2 rounded-full bg-[#FACC15] animate-pulse" />
-                  LIVE EVENT • REGISTRATION OPEN
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7C3AED]/30 border border-[#7C3AED]/50 text-[#FACC15] text-xs font-mono font-bold uppercase tracking-wider">
+                  <span className="w-2 h-2 rounded-full bg-[#FACC15]" />
+                  CHALLENGE RESULTS LIVE
                 </span>
                 <span className="text-xs font-mono text-slate-400">
                   SEPTEMBER 1–6, 2026
@@ -64,10 +64,17 @@ export function PerspectiveHomeCallout() {
 
               {/* Action Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <Link to="/perspective" className="w-full sm:w-auto">
+                <Link to="/perspective/scoreboard" className="w-full sm:w-auto">
                   <button className="w-full bg-[#FACC15] text-slate-950 hover:bg-yellow-400 py-3.5 px-6 rounded-full font-mono text-xs font-black uppercase tracking-wider transition-all duration-200 hover:scale-105 active:scale-95 shadow-yellow flex items-center justify-center gap-2 cursor-pointer">
-                    <span>View Challenge Details</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <Trophy className="w-4 h-4 text-slate-950" />
+                    <span>View Score Card</span>
+                  </button>
+                </Link>
+
+                <Link to="/perspective" className="w-full sm:w-auto">
+                  <button className="w-full bg-white/10 hover:bg-white/15 text-white border border-white/20 py-3.5 px-6 rounded-full font-mono text-xs font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                    <span>Challenge Details</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </Link>
 
@@ -77,19 +84,11 @@ export function PerspectiveHomeCallout() {
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto"
                 >
-                  <button className="w-full bg-white/10 hover:bg-white/15 text-white border border-white/20 py-3.5 px-6 rounded-full font-mono text-xs font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer">
-                    <span>Register on Unstop</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-[#FACC15]" />
+                  <button className="w-full bg-white/5 hover:bg-white/10 text-slate-300 border border-white/15 py-3.5 px-5 rounded-full font-mono text-xs font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                    <span>Registrations Closed</span>
+                    <ExternalLink className="w-3 h-3 text-slate-400" />
                   </button>
                 </a>
-
-                {/* Score Card Button */}
-                <Link to="/perspective/scoreboard" className="w-full sm:w-auto">
-                  <button className="w-full bg-white/5 hover:bg-white/10 text-slate-200 border border-white/15 py-3.5 px-6 rounded-full font-mono text-xs font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer">
-                    <Trophy className="w-3.5 h-3.5 text-amber-400" />
-                    <span>View Score Card</span>
-                  </button>
-                </Link>
               </div>
             </div>
 
