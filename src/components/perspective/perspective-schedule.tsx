@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Calendar, Zap, ArrowRight, CheckCircle2, Flame, Award, Brain, Target, Layers, ChevronRight, ExternalLink, Sparkles } from "lucide-react"
+import { Calendar, Zap, ArrowRight, CheckCircle2, Flame, Award, Brain, Target, Layers, ChevronRight, ExternalLink, Sparkles, AlertCircle } from "lucide-react"
 
 export const UNSTOP_REGISTER_URL =
   "https://unstop.com/o/B9nhYTp?lb=usehckjk&utm_medium=Share&utm_source=quizzes&utm_campaign=Davnsnlo59542"
@@ -119,6 +119,14 @@ export function PerspectiveSchedule() {
             The competition runs across six consecutive days. Every day introduces a fresh set of{" "}
             <strong className="text-slate-900 font-semibold">30 aptitude quizzes</strong>, with the cognitive complexity progressing throughout the journey.
           </p>
+
+          {/* Revised Schedule Callout */}
+          <div className="mt-6 p-3.5 sm:p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-slate-900 flex items-start sm:items-center justify-center gap-3 text-left max-w-2xl mx-auto shadow-xs">
+            <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5 sm:mt-0" />
+            <div className="text-xs sm:text-sm font-semibold leading-snug">
+              <span className="text-amber-700 font-extrabold">Important Update:</span> DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.
+            </div>
+          </div>
         </div>
 
         {/* Interactive Day Pills Navigation */}
