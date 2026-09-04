@@ -120,12 +120,10 @@ export function PerspectiveSchedule() {
             <strong className="text-slate-900 font-semibold">30 aptitude quizzes</strong>, with the cognitive complexity progressing throughout the journey.
           </p>
 
-          {/* Revised Schedule Callout */}
-          <div className="mt-6 p-3.5 sm:p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-slate-900 flex items-start sm:items-center justify-center gap-3 text-left max-w-2xl mx-auto shadow-xs">
-            <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5 sm:mt-0" />
-            <div className="text-xs sm:text-sm font-semibold leading-snug">
-              <span className="text-amber-700 font-extrabold">Important Update:</span> DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.
-            </div>
+          {/* Revised Schedule Note (No heavy container) */}
+          <div className="mt-4 inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold text-orange-600">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shrink-0" />
+            <span>Important Update: The schedule details below reflect the latest revised dates & timings.</span>
           </div>
         </div>
 
