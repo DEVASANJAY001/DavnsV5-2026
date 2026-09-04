@@ -108,7 +108,7 @@ export function PerspectiveStudentLeaderboard({
           {onViewInstitutions && (
             <button
               onClick={onViewInstitutions}
-              className="self-start sm:self-auto px-4 py-2 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-mono text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2 shadow-2xs"
+              className="self-start sm:self-auto text-[#7C3AED] hover:text-purple-800 font-mono text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 hover:underline py-1"
             >
               <Building2 className="w-3.5 h-3.5 text-[#7C3AED]" />
               <span>View Institution Leaderboard ↑</span>

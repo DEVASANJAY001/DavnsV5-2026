@@ -82,7 +82,7 @@ export function PerspectiveCollegeLeaderboard({ colleges, onViewStudents }: Coll
           {onViewStudents && (
             <button
               onClick={onViewStudents}
-              className="self-start sm:self-auto px-4 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-[#7C3AED] font-mono text-xs font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
+              className="self-start sm:self-auto text-[#7C3AED] hover:text-purple-800 font-mono text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 hover:underline py-1"
             >
               <Users className="w-3.5 h-3.5 text-[#7C3AED]" />
               <span>View Student Leaderboard ↓</span>
