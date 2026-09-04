@@ -116,6 +116,42 @@ export function PerspectiveRegisteredCollegesShowcase({
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           
+          {/* Continuous Moving One-Line Priority Announcement in Orange (No Container) */}
+          <div className="w-full max-w-4xl mx-auto overflow-hidden mb-5 relative py-1">
+            {/* Subtle edge fades */}
+            <div className="absolute left-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
+            
+            <a
+              href="https://unstop.com/o/B9nhYTp?lb=usehckjk&utm_medium=Share&utm_source=quizzes&utm_campaign=Davnsnlo59542"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex overflow-hidden whitespace-nowrap cursor-pointer select-none"
+              title="Open official Unstop schedule & round details"
+            >
+              <motion.div
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ repeat: Infinity, ease: "linear", duration: 24 }}
+                className="flex shrink-0 items-center gap-8 whitespace-nowrap text-orange-400 hover:text-orange-300 text-[10.5px] sm:text-xs font-mono font-bold tracking-tight"
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-ping inline-block shrink-0" />
+                  <span className="font-extrabold text-orange-400 uppercase tracking-wider">Important Update:</span>
+                  <span className="text-orange-300 font-semibold">DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.</span>
+                  <span className="underline underline-offset-2 font-extrabold text-orange-400 group-hover:text-orange-300 ml-1">View On Unstop ↗</span>
+                </span>
+                <span className="text-orange-400/50">✦</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-ping inline-block shrink-0" />
+                  <span className="font-extrabold text-orange-400 uppercase tracking-wider">Important Update:</span>
+                  <span className="text-orange-300 font-semibold">DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.</span>
+                  <span className="underline underline-offset-2 font-extrabold text-orange-400 group-hover:text-orange-300 ml-1">View On Unstop ↗</span>
+                </span>
+                <span className="text-orange-400/50">✦</span>
+              </motion.div>
+            </a>
+          </div>
+
           {/* Phase Badge */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}

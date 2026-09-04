@@ -2,6 +2,9 @@ import { motion } from "framer-motion"
 import { Users, Building2, TrendingUp, Award, Calendar } from "lucide-react"
 import { Participant, College } from "@/lib/scoreboard-service"
 
+export const UNSTOP_REGISTER_URL =
+  "https://unstop.com/o/B9nhYTp?lb=usehckjk&utm_medium=Share&utm_source=quizzes&utm_campaign=Davnsnlo59542"
+
 interface ScoreboardHeroProps {
   participants: Participant[]
   colleges: College[]
@@ -25,6 +28,42 @@ export function PerspectiveScoreboardHero({ participants, colleges }: Scoreboard
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-72 bg-[radial-gradient(ellipse_at_top,rgba(237,233,254,0.6),transparent_70%)] pointer-events-none" />
       
       <div className="max-w-5xl mx-auto relative z-10 text-center">
+        {/* Continuous Moving One-Line Priority Announcement in Orange (No Container) */}
+        <div className="w-full max-w-4xl mx-auto overflow-hidden mb-5 relative py-1">
+          {/* Subtle edge fades */}
+          <div className="absolute left-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-r from-purple-50/40 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-l from-purple-50/40 to-transparent z-10 pointer-events-none" />
+          
+          <a
+            href={UNSTOP_REGISTER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex overflow-hidden whitespace-nowrap cursor-pointer select-none"
+            title="Open official Unstop schedule & round details"
+          >
+            <motion.div
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, ease: "linear", duration: 24 }}
+              className="flex shrink-0 items-center gap-8 whitespace-nowrap text-orange-600 hover:text-orange-700 text-[10.5px] sm:text-xs font-mono font-bold tracking-tight"
+            >
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping inline-block shrink-0" />
+                <span className="font-extrabold text-orange-600 uppercase tracking-wider">Important Update:</span>
+                <span className="text-orange-600 font-semibold">DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.</span>
+                <span className="underline underline-offset-2 font-extrabold text-orange-500 group-hover:text-orange-700 ml-1">View On Unstop ↗</span>
+              </span>
+              <span className="text-orange-300">✦</span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping inline-block shrink-0" />
+                <span className="font-extrabold text-orange-600 uppercase tracking-wider">Important Update:</span>
+                <span className="text-orange-600 font-semibold">DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.</span>
+                <span className="underline underline-offset-2 font-extrabold text-orange-500 group-hover:text-orange-700 ml-1">View On Unstop ↗</span>
+              </span>
+              <span className="text-orange-300">✦</span>
+            </motion.div>
+          </a>
+        </div>
+
         {/* Overline & Main Title */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
