@@ -124,6 +124,14 @@ export function PerspectiveSchedule() {
           <div className="mt-4 inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-mono font-bold text-orange-600">
             <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shrink-0" />
             <span>Important Update: The schedule details below reflect the latest revised dates & timings.</span>
+            <a
+              href={UNSTOP_REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 ml-1 text-orange-600 hover:text-orange-800"
+            >
+              View On Unstop ↗
+            </a>
           </div>
         </div>
 

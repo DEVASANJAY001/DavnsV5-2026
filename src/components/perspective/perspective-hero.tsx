@@ -81,9 +81,11 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
           <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
           
           <a
-            href="#schedule"
+            href={UNSTOP_REGISTER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group flex overflow-hidden whitespace-nowrap cursor-pointer select-none"
-            title="Click to view revised schedule"
+            title="Open official Unstop schedule & round details"
           >
             <motion.div
               animate={{ x: ["0%", "-50%"] }}
@@ -94,14 +96,14 @@ export function PerspectiveHero({ onRegisterClick }: HeroProps) {
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping inline-block shrink-0" />
                 <span className="font-extrabold text-orange-600 uppercase tracking-wider">Important Update:</span>
                 <span className="text-orange-600 font-semibold">DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.</span>
-                <span className="underline underline-offset-2 font-extrabold text-orange-500 group-hover:text-orange-700 ml-1">View Schedule ↓</span>
+                <span className="underline underline-offset-2 font-extrabold text-orange-500 group-hover:text-orange-700 ml-1">View On Unstop ↗</span>
               </span>
               <span className="text-orange-300">✦</span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping inline-block shrink-0" />
                 <span className="font-extrabold text-orange-600 uppercase tracking-wider">Important Update:</span>
                 <span className="text-orange-600 font-semibold">DAVNS PERSPECTIVE 2026 schedule has been revised — please check the updated schedule for the latest dates and timings.</span>
-                <span className="underline underline-offset-2 font-extrabold text-orange-500 group-hover:text-orange-700 ml-1">View Schedule ↓</span>
+                <span className="underline underline-offset-2 font-extrabold text-orange-500 group-hover:text-orange-700 ml-1">View On Unstop ↗</span>
               </span>
               <span className="text-orange-300">✦</span>
             </motion.div>
