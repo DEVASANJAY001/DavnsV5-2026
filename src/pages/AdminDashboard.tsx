@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth, UserProfile } from "@/context/AuthContext"
+import { SEOHead } from "@/components/seo-head"
 import {
   SupportTicket,
   subscribeAllTickets,
@@ -587,6 +588,11 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col md:flex-row font-sans">
+      <SEOHead
+        title="Superadmin Command Console | DAVNS Industries"
+        description="Administrative management, security telemetry, user access control, and hackathon governance."
+        noindex={true}
+      />
       
       {/* ── Mobile Top Header ── */}
       <div className="md:hidden bg-slate-950 text-white p-3.5 flex items-center justify-between sticky top-0 z-40 border-b border-slate-800">

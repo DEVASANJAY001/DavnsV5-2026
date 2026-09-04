@@ -1,0 +1,21 @@
+{
+  "name": "DAVNS Industries — Intelligent AI & Enterprise Platforms",
+  "short_name": "DAVNS",
+  "description": "DAVNS Industries engineers custom autonomous AI systems, computer vision inspection pipelines, and scalable enterprise software platforms.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7C3AED",
+  "icons": [
+    {
+      "src": "/images/davns-logo-alt.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/davns-logo-alt.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

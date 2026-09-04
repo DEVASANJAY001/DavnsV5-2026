@@ -1,6 +1,7 @@
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { DualJourneyBento } from "@/components/dual-journey-bento"
+import { SEOHead } from "@/components/seo-head"
 import { Brain, Target, Users, TrendingUp, ShieldCheck, Zap, Globe, Sparkles } from "lucide-react"
 
 const values = [
@@ -68,6 +69,39 @@ const milestones = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900">
+      <SEOHead
+        title="About Us - Mission, Research & Team | DAVNS Industries"
+        description="DAVNS Industries is an AI engineering and enterprise software innovation firm founded in Chennai, India. We engineer bespoke autonomous agents, computer vision, and cloud platforms."
+        keywords="about DAVNS, DAVNS Industries, AI company Chennai, enterprise AI engineers, AI research lab India, autonomous systems team"
+        canonical="/about"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "name": "About DAVNS Industries",
+          "description": "DAVNS Industries is an AI engineering and enterprise software innovation firm founded in Chennai, India.",
+          "mainEntity": {
+            "@type": "Organization",
+            "name": "DAVNS Industries",
+            "foundingDate": "2025-02-14",
+            "foundingLocation": {
+              "@type": "Place",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Chennai",
+                "addressRegion": "Tamil Nadu",
+                "addressCountry": "India"
+              }
+            },
+            "description": "Enterprise AI engineering firm specializing in autonomous agents, computer vision, and high-performance software systems.",
+            "url": "https://davns.com",
+            "sameAs": [
+              "https://www.linkedin.com/company/davns",
+              "https://twitter.com/davnsindustries",
+              "https://github.com/davns"
+            ]
+          }
+        }}
+      />
       <main className="min-h-screen relative overflow-hidden">
         <GlassmorphismNav />
         

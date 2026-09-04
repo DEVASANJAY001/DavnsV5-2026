@@ -1,10 +1,17 @@
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { AuroraBackground } from "@/components/aurora-background"
+import { SEOHead } from "@/components/seo-head"
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      <SEOHead
+        title="Privacy Policy & Data Sovereignty | DAVNS Industries"
+        description="Learn how DAVNS Industries protects client data, enforces zero public model training, and maintains enterprise-grade security and isolation."
+        keywords="privacy policy, data isolation, DAVNS security, enterprise AI data protection"
+        canonical="/privacy"
+      />
       <main className="min-h-screen relative overflow-hidden">
         <AuroraBackground />
         <div className="relative z-10">

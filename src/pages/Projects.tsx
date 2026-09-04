@@ -1,6 +1,7 @@
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { DualJourneyBento } from "@/components/dual-journey-bento"
+import { SEOHead } from "@/components/seo-head"
 import { ArrowRight, ExternalLink } from "lucide-react"
 
 const projects = [
@@ -46,6 +47,40 @@ const projects = [
 export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900">
+      <SEOHead
+        title="Case Studies & Client Portfolio - AI & Software Engineering | DAVNS"
+        description="Explore production case studies from DAVNS Industries: Split mobile app, Intecalic Automotive AI, Kushan Elevators IoT vision QC, and Sriviiyengar Foods commerce."
+        keywords="DAVNS case studies, AI portfolio, software engineering projects, Split expense app, automotive AI chatbot, industrial computer vision case study, Chennai tech company portfolio"
+        canonical="/projects"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "DAVNS Case Studies & Engineering Portfolio",
+          "description": "Showcase of AI systems, enterprise SaaS platforms, and mobile apps built and deployed by DAVNS Industries.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "DAVNS Industries",
+            "url": "https://davns.com"
+          },
+          "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": projects.map((proj, idx) => ({
+              "@type": "ListItem",
+              "position": idx + 1,
+              "item": {
+                "@type": "CreativeWork",
+                "name": proj.title,
+                "headline": `${proj.title} - ${proj.category}`,
+                "description": proj.description,
+                "creator": {
+                  "@type": "Organization",
+                  "name": "DAVNS Industries"
+                }
+              }
+            }))
+          }
+        }}
+      />
       <main className="min-h-screen relative overflow-hidden">
         <GlassmorphismNav />
         

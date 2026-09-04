@@ -8,10 +8,28 @@ import { PerspectiveHomeCallout } from "@/components/perspective/perspective-hom
 import { DualJourneyBento } from "@/components/dual-journey-bento"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { Footer } from "@/components/footer"
+import { SEOHead } from "@/components/seo-head"
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      <SEOHead
+        title="DAVNS Industries | Custom AI Systems, Computer Vision & Enterprise Platforms"
+        description="DAVNS Industries engineers custom autonomous AI systems, industrial computer vision inspection pipelines, and high-performance enterprise platforms. Founded in Chennai, India."
+        keywords="DAVNS Industries, AI Engineering Startup, Computer Vision AI, Autonomous Systems, Enterprise Software, Deep Learning, Industrial Automation, AI Systems Chennai"
+        canonical="/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "DAVNS Industries",
+          "url": "https://davns.com",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://davns.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }}
+      />
       <main className="min-h-screen relative overflow-hidden">
         <div className="relative z-10">
           <GlassmorphismNav />

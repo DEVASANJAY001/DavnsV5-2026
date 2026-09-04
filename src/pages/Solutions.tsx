@@ -3,6 +3,7 @@ import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { DualJourneyBento } from "@/components/dual-journey-bento"
 import { FAQSection } from "@/components/faq-section"
+import { SEOHead } from "@/components/seo-head"
 import { motion, AnimatePresence } from "framer-motion"
 import { Link } from "react-router-dom"
 import {
@@ -173,6 +174,40 @@ export default function SolutionsPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      <SEOHead
+        title="Enterprise AI Solutions by Industry - Manufacturing, Auto, Retail & Healthcare | DAVNS"
+        description="Explore purpose-engineered AI solutions for manufacturing computer vision, automotive inventory, retail commerce intelligence, healthcare analytics, logistics route optimization, and financial compliance."
+        keywords="enterprise AI solutions, manufacturing computer vision, automated defect detection, automotive AI, retail demand forecasting, healthcare document AI, logistics route optimization, fintech AI automation, DAVNS solutions"
+        canonical="/solutions"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "DAVNS Enterprise AI Solutions by Industry",
+          "description": "Production-grade vertical AI systems engineered for specific sector workflows across manufacturing, automotive, healthcare, retail, and logistics.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "DAVNS Industries",
+            "url": "https://davns.com"
+          },
+          "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": industries.map((ind, idx) => ({
+              "@type": "ListItem",
+              "position": idx + 1,
+              "item": {
+                "@type": "Service",
+                "name": ind.title,
+                "category": ind.tag,
+                "description": ind.solution,
+                "provider": {
+                  "@type": "Organization",
+                  "name": "DAVNS Industries"
+                }
+              }
+            }))
+          }
+        }}
+      />
       <main className="min-h-screen relative overflow-hidden">
         <GlassmorphismNav />
 

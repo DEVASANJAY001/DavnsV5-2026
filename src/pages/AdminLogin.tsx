@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { Footer } from "@/components/footer"
+import { SEOHead } from "@/components/seo-head"
 import { ShieldCheck, Lock, Mail, Eye, EyeOff, Key, ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 
@@ -61,6 +62,11 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900 flex flex-col justify-between relative">
+      <SEOHead
+        title="Admin Gateway Portal | DAVNS Industries"
+        description="Administrative management authentication gateway."
+        noindex={true}
+      />
       {/* Return to Main Page Top Button */}
       <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-20">
         <Link

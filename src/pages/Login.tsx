@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { Footer } from "@/components/footer"
+import { SEOHead } from "@/components/seo-head"
 import { PhoneInputWithCountry } from "@/components/ui/phone-input-with-country"
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
@@ -147,6 +148,11 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900 flex flex-col justify-between relative">
+      <SEOHead
+        title="Sign In & Account Access | DAVNS Industries"
+        description="Sign in or register for DAVNS Industries client dashboard and competition registration."
+        noindex={true}
+      />
       {/* Return to Main Page Top Button */}
       <div className="absolute top-6 left-6 sm:top-8 sm:left-8 z-20">
         <Link

@@ -1,0 +1,29 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Allow: /perspective
+Allow: /perspective/scoreboard
+Allow: /services
+Allow: /solutions
+Allow: /projects
+Allow: /car-dealerships
+Allow: /about
+Allow: /contact
+Allow: /get-started
+Allow: /privacy
+Allow: /terms
+Allow: /images/
+
+# Disallow private dashboards and admin panels
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /admin/login
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /dashboard/*
+Disallow: /login
+Disallow: /register
+
+# Host & Sitemap
+Sitemap: https://davns.com/sitemap.xml

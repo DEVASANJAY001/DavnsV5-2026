@@ -2,12 +2,18 @@ import { Link } from "react-router-dom"
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { AuroraBackground } from "@/components/aurora-background"
+import { SEOHead } from "@/components/seo-head"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 
 export default function NotFoundPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      <SEOHead
+        title="404 - Page Not Found | DAVNS Industries"
+        description="The requested page could not be found."
+        noindex={true}
+      />
       <main className="min-h-screen relative overflow-hidden flex flex-col justify-between">
         <AuroraBackground />
         <div className="relative z-10">

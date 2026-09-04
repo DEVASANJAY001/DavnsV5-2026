@@ -2,6 +2,7 @@ import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
+import { SEOHead } from "@/components/seo-head"
 import {
   Bot, Eye, Smartphone, MessageSquare, CheckCircle2,
   ArrowRight, Cpu, Shield, Zap, Clock, BarChart3,
@@ -108,7 +109,39 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <main className="relative overflow-hidden">
+      <SEOHead
+        title="AI Engineering & Enterprise Software Services | DAVNS Industries"
+        description="Explore custom AI automation, industrial computer vision inspection pipelines, autonomous conversational agents, and full-stack enterprise web & mobile application engineering."
+        keywords="AI Engineering Services, Custom AI Development, Computer Vision Solutions, Industrial Defect Detection AI, Conversational AI Agents, Full-Stack Web Development, React Native Apps, AI Consulting Chennai"
+        canonical="/services"
+        structuredData={[
+          {
+            "@type": "Service",
+            "name": "AI Automation & Workflow Intelligence",
+            "provider": { "@type": "Organization", "name": "DAVNS Industries", "url": "https://davns.com" },
+            "description": "Automate complex operational processes using custom-trained AI pipelines, intelligent OCR, and autonomous dispatching."
+          },
+          {
+            "@type": "Service",
+            "name": "Industrial Computer Vision Systems",
+            "provider": { "@type": "Organization", "name": "DAVNS Industries", "url": "https://davns.com" },
+            "description": "Real-time optical analysis models for industrial manufacturing, sub-millimeter component defect detection, and safety monitoring."
+          },
+          {
+            "@type": "Service",
+            "name": "Autonomous Conversational Agents",
+            "provider": { "@type": "Organization", "name": "DAVNS Industries", "url": "https://davns.com" },
+            "description": "24/7 multi-turn AI agents for sales qualification, appointment booking, and automated CRM integration."
+          },
+          {
+            "@type": "Service",
+            "name": "Full-Stack Web & Mobile Engineering",
+            "provider": { "@type": "Organization", "name": "DAVNS Industries", "url": "https://davns.com" },
+            "description": "High-performance React web applications and React Native mobile apps engineered with enterprise reliability."
+          }
+        ]}
+      />
+      <main className="min-h-screen relative overflow-hidden">
         <GlassmorphismNav />
 
         {/* ══════════════════════════════════════════════

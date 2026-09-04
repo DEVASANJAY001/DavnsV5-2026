@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
+import { SEOHead } from "@/components/seo-head"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Mail, MapPin, Phone, MessageSquare, Send, CheckCircle2,
@@ -29,6 +30,36 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      <SEOHead
+        title="Contact Us & Project Discovery Sprint | DAVNS Industries"
+        description="Get in touch with DAVNS Industries AI engineering team. Request technical feasibility, discovery sprints, partnership, or enterprise consultation in Chennai, India."
+        keywords="contact DAVNS, AI consultation, enterprise software inquiry, Chennai AI developers, project discovery sprint, hire AI engineers"
+        canonical="/contact"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact DAVNS Industries",
+          "description": "Direct inquiry portal to initiate technical feasibility, architecture scoping, and ROI analysis with the DAVNS engineering team.",
+          "mainEntity": {
+            "@type": "LocalBusiness",
+            "name": "DAVNS Industries",
+            "image": "https://davns.com/logo.png",
+            "email": "contact@davns.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Chennai",
+              "addressRegion": "Tamil Nadu",
+              "addressCountry": "IN"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 13.0827,
+              "longitude": 80.2707
+            },
+            "url": "https://davns.com"
+          }
+        }}
+      />
       <main className="min-h-screen relative overflow-hidden">
         <GlassmorphismNav />
 

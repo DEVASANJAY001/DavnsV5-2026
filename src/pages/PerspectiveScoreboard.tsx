@@ -16,6 +16,7 @@ import {
   PerspectiveConfig,
 } from "@/lib/scoreboard-service"
 import { ArrowLeft, RefreshCw, ExternalLink } from "lucide-react"
+import { SEOHead } from "@/components/seo-head"
 
 // Challenge live window: Sep 1–6, 2026
 const CHALLENGE_START = new Date("2026-09-01T00:00:00+05:30").getTime()
@@ -32,13 +33,6 @@ export default function PerspectiveScoreboardPage() {
 
   const now = Date.now()
   const isLive = now >= CHALLENGE_START && now <= CHALLENGE_END
-
-  useEffect(() => {
-    document.title =
-      config.displayMode === "colleges_only"
-        ? "DAVNS Perspective 2026 — Registered Colleges Directory"
-        : "DAVNS Perspective 2026 — Score Card & Leaderboard"
-  }, [config.displayMode])
 
   useEffect(() => {
     setLoading(true)
@@ -62,8 +56,22 @@ export default function PerspectiveScoreboardPage() {
   const visibleColleges = colleges.filter((c) => !c.isHidden)
   const visibleParticipants = participants.filter((p) => !p.isHidden)
 
+  const pageTitle = isLeaderboardMode
+    ? "DAVNS Perspective 2026 — Live Scoreboard & Student Leaderboard"
+    : "DAVNS Perspective 2026 — Participating Colleges Directory"
+
+  const pageDescription = isLeaderboardMode
+    ? "Official live rankings, candidate scores, accuracy metrics, and institution leaderboards for the DAVNS PERSPECTIVE 2026 Thinking Challenge."
+    : "Explore participating colleges and academic institutions stepping forward for the DAVNS PERSPECTIVE 2026 Thinking Challenge."
+
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900">
+      <SEOHead
+        title={pageTitle}
+        description={pageDescription}
+        keywords="DAVNS Perspective Leaderboard, Perspective 2026 Scoreboard, College Rankings, Student Ranks, Unstop Hackathon Results, Thinking Challenge Results"
+        canonical="/perspective/scoreboard"
+      />
       <GlassmorphismNav />
 
       <main>

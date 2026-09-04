@@ -1,10 +1,17 @@
 import { GlassmorphismNav } from "@/components/glassmorphism-nav"
 import { Footer } from "@/components/footer"
 import { AuroraBackground } from "@/components/aurora-background"
+import { SEOHead } from "@/components/seo-head"
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      <SEOHead
+        title="Terms of Service & IP Ownership | DAVNS Industries"
+        description="Review the DAVNS Industries terms of service, intellectual property ownership agreements, and client service level guarantees."
+        keywords="terms of service, DAVNS terms, IP ownership, enterprise software SLA"
+        canonical="/terms"
+      />
       <main className="min-h-screen relative overflow-hidden">
         <AuroraBackground />
         <div className="relative z-10">

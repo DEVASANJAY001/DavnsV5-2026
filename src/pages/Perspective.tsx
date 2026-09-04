@@ -17,6 +17,7 @@ import { PerspectiveFAQ } from "@/components/perspective/perspective-faq"
 import { PerspectiveFooterCTA } from "@/components/perspective/perspective-footer-cta"
 import { PerspectiveRegisterModal } from "@/components/perspective/perspective-register-modal"
 import { Sparkles, Trophy, ArrowRight } from "lucide-react"
+import { SEOHead } from "@/components/seo-head"
 
 export default function PerspectivePage() {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false)
@@ -35,13 +36,42 @@ export default function PerspectivePage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Update document title for SEO
-  useEffect(() => {
-    document.title = "DAVNS PERSPECTIVE 2026 | The Thinking Challenge"
-  }, [])
-
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-500/20 selection:text-purple-900">
+      <SEOHead
+        title="DAVNS PERSPECTIVE 2026 | The Thinking Challenge — Aptitude & Cognitive Competition"
+        description="DAVNS PERSPECTIVE 2026 is a premier 6-day competitive aptitude and cognitive reasoning challenge for college students. 180 progressive quizzes testing logic, deduction, and problem solving."
+        keywords="DAVNS PERSPECTIVE 2026, The Thinking Challenge, Cognitive Aptitude Competition, College Quiz Challenge, Unstop Hackathon 2026, Student Aptitude Test, Logic Challenge Chennai, DAVNS Industries"
+        canonical="/perspective"
+        ogType="website"
+        structuredData={[
+          {
+            "@type": "Event",
+            "name": "DAVNS PERSPECTIVE 2026 — The Thinking Challenge",
+            "description": "A six-day competitive aptitude experience testing observation, multi-step deduction, critical thinking, strategic optimization, and cognitive problem-solving.",
+            "startDate": "2026-09-01T09:00:00+05:30",
+            "endDate": "2026-09-06T20:00:00+05:30",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+            "location": {
+              "@type": "VirtualLocation",
+              "url": "https://unstop.com/o/B9nhYTp"
+            },
+            "organizer": {
+              "@type": "Organization",
+              "name": "DAVNS Industries",
+              "url": "https://davns.com"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "INR",
+              "availability": "https://schema.org/InStock",
+              "url": "https://unstop.com/o/B9nhYTp"
+            }
+          }
+        ]}
+      />
       <main className="min-h-screen relative overflow-hidden">
         
         {/* Navigation */}
