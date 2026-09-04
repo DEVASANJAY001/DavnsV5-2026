@@ -152,7 +152,7 @@ export function Footer() {
           {/* Bottom Bar */}
           <div className="border-t border-white/8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
             <div>
-              © {new Date().getFullYear()} DAVNS Industries Pvt Ltd. All rights reserved. Founded in Chennai, India.
+              © {new Date().getFullYear()} DAVNS Industries. All rights reserved. Founded in Chennai, India.
             </div>
             <div className="flex gap-5">
               <Link to="/privacy" className="hover:text-slate-300 transition-colors">Privacy</Link>
