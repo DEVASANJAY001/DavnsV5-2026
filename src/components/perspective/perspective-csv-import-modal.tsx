@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Upload,
@@ -332,6 +332,13 @@ export function PerspectiveCsvImportModal({
   const [isCommitting, setIsCommitting] = useState(false)
   const [progressStatus, setProgressStatus] = useState("")
 
+  // Update targetDay when initialTargetDay prop changes
+  useEffect(() => {
+    if (initialTargetDay) {
+      setTargetDay(initialTargetDay)
+    }
+  }, [initialTargetDay, isOpen])
+
   // Paste mode state
   const [pasteText, setPasteText] = useState("")
   const [parsedPasteRows, setParsedPasteRows] = useState<PastedRow[]>([])
@@ -343,8 +350,9 @@ export function PerspectiveCsvImportModal({
 
   const handleFileChange = async (selectedFile: File) => {
     setFile(selectedFile)
-    const detected = participantsOnly ? 1 : detectDayFromFilename(selectedFile.name)
-    setTargetDay(detected)
+    const detectedFilenameDay = detectDayFromFilename(selectedFile.name)
+    const activeDay = participantsOnly ? 1 : (detectedFilenameDay || targetDay || initialTargetDay || 1)
+    setTargetDay(activeDay)
 
     try {
       setIsParsing(true)
@@ -354,7 +362,7 @@ export function PerspectiveCsvImportModal({
       // In participantsOnly mode: import with zeroed scores (registration only)
       const parsed = participantsOnly
         ? await prepareUnstopImport(text, 1, { correct: 0, total: 0, timeSecs: 0 })
-        : await prepareUnstopImport(text, detected)
+        : await prepareUnstopImport(text, activeDay)
       setSummary(parsed)
       toast.success(`Parsed ${parsed.validRows} participants from ${selectedFile.name}`)
     } catch (err: any) {

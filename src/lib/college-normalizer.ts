@@ -98,6 +98,18 @@ const KNOWN_COLLEGE_RULES: CollegeRule[] = [
     keywords: ["sathyabama"],
   },
   {
+    canonicalName: "University of Madras (UNOM)",
+    defaultCity: "Chennai",
+    defaultState: "Tamil Nadu",
+    keywords: ["university of madras", "unom", "madras university"],
+  },
+  {
+    canonicalName: "KCG College Of Technology (KCGCT)",
+    defaultCity: "Chennai",
+    defaultState: "Tamil Nadu",
+    keywords: ["kcg college", "kcgct", "kcg"],
+  },
+  {
     canonicalName: "St. Joseph's College of Engineering",
     defaultCity: "Chennai",
     defaultState: "Tamil Nadu",
